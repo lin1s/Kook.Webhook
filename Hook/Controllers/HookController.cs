@@ -58,8 +58,15 @@ namespace Hook.Controllers
                               string text = commandJson.d.extra["kmarkdown"]?["raw_content"]?.ToString();
                               if (string.IsNullOrEmpty(text))
                                   return;
-                              object obj = Activator.CreateInstance(type);
-                              method.Invoke(obj, new object[] { commandJson });
+
+                              if (!text.StartsWith(config.CommandPrefix))
+                                  return;
+
+                              if (text.Contains(command))
+                              {
+                                  object obj = Activator.CreateInstance(type);
+                                  method.Invoke(obj, new object[] { commandJson });
+                              }
                           }
                       }
                   }
