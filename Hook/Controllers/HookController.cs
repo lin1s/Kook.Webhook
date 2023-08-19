@@ -12,20 +12,23 @@ namespace Hook.Controllers
     [ApiController]
     public class HookController : ControllerBase
     {
-        public readonly Config config = ConfigHelper.GetBaseConfig();
-
         [HttpPost]
         public async Task<IActionResult> Challenge()
         {
             Challenge data = null;
-
+            Config config = ConfigHelper.GetBaseConfig();
             try
             {
                 StreamReader stream = new StreamReader(HttpContext.Request.Body, Encoding.UTF8);
                 var body = await stream.ReadToEndAsync();
-                //Encryption encryption = JsonConvert.DeserializeObject<Encryption>(body);
-                //string strDecrypt = Tools.Tool.Decrypt(encryption.encrypt, config.EncryptKey);
-                data = JsonConvert.DeserializeObject<Challenge>(body);
+                Encryption encryption = JsonConvert.DeserializeObject<Encryption>(body);
+                string strDecrypt = Tool.Decrypt(encryption.encrypt, config.EncryptKey);
+                data = JsonConvert.DeserializeObject<Challenge>(strDecrypt);
+
+                if (data == null || data.d == null)
+                {
+                    return new JsonResult(new { code = "200" });
+                }
 
                 if (data.d.verify_token != config.VerifyToken)
                 {
@@ -38,7 +41,7 @@ namespace Hook.Controllers
                 return new JsonResult(new { code = "200" });
             }
 
-            if (data != null && data.d.type == MessageType.System && data.d.channel_type == ChannelType.WEBHOOK_CHALLENGE)
+            if (data.d.type == MessageType.System && data.d.channel_type == ChannelType.WEBHOOK_CHALLENGE)
             {
                 return new JsonResult(new { challenge = data.d.challenge });
             }
@@ -71,7 +74,6 @@ namespace Hook.Controllers
                       }
                   }
               });
-
 
             return new JsonResult(new { code = "200" });
         }

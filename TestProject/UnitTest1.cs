@@ -1,15 +1,18 @@
 using Models;
 using Newtonsoft.Json;
+using Tools;
 
 namespace TestProject
 {
     [TestClass]
     public class UnitTest1
     {
+        public readonly Config config = ConfigHelper.GetBaseConfig();
+
         [TestMethod]
         public void DecryptTest()
         {
-            var json = Tools.Tool.Decrypt("NTMxMzMwY2I3MzMzYTE4NlVXRllqd0NQZGZ0MEdwdTFZaXV4aDMxZzkvTzNTN3VlbEl5T0h2WTc5MTNDNXJoQXRLNnBPd2QzLzUwYzh1U01ZcHdseXNVMUJsR3BKQlpKdFhQNU1kK1YyNCtYRW5iajhKbWRJd21yb3VsWVVGbWxjcEIybE8reERzVEZSb2FJWllZQmc5dHl6WURVSVdCSkVKVnl0WWVrMU5GK3ljQkh1RHQ4ek1xR0t3cz0=", "xNkBynl");
+            var json = Tool.Decrypt("OGU0NTZmZjM4MTY4OTI1ZTZBZlR3Q2M0eUF3Z2VjTkNLR1JEZXdGMjlKa3lkK2NLdTV3aHdhUDdIVThGTnhVc2V3VGxuMnNTSk90M0dRNzMyOWlhMllITzBOcVh3VFVuR0xEajVuNkIrSXlrZGY0RWdnRld0UER1T1hrMmZCSjhxeTJoakdxQ00zRzNzQjZ2SGwxTmZnNzVYT1F3R21ZTUxWSmNpM0tGdTB1YUFlT21ibmlzSUl5ZDNudz0=", config.EncryptKey);
         }
 
         [TestMethod]

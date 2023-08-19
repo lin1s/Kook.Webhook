@@ -19,12 +19,12 @@ namespace Tools
 
     public class Config
     {
-        public string Token { get; set; } = string.Empty;
+        public string Token { get; set; }
 
-        public string VerifyToken { get; set; } = string.Empty;
+        public string VerifyToken { get; set; }
 
-        public string EncryptKey { get; set; } = string.Empty;
+        public string EncryptKey { get; set; }
 
-        public string CommandPrefix { get; set;} = string.Empty;
+        public string CommandPrefix { get; set;}
     }
 }
