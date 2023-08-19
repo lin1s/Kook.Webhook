@@ -12,11 +12,12 @@ namespace Hook.Controllers
     [ApiController]
     public class HookController : ControllerBase
     {
+        private readonly Config config = ConfigHelper.GetBaseConfig();
+
         [HttpPost]
         public async Task<IActionResult> Challenge()
         {
             Challenge data = null;
-            Config config = ConfigHelper.GetBaseConfig();
             try
             {
                 StreamReader stream = new StreamReader(HttpContext.Request.Body, Encoding.UTF8);
@@ -58,14 +59,13 @@ namespace Hook.Controllers
                           if (attrs.Length != 0)
                           {
                               string command = ((KookCommandAttribute)attrs[0]).GetCommand();
-                              string text = commandJson.d.extra["kmarkdown"]?["raw_content"]?.ToString();
-                              if (string.IsNullOrEmpty(text))
+                              if (string.IsNullOrEmpty(commandJson.d.content))
                                   return;
 
-                              if (!text.StartsWith(config.CommandPrefix))
+                              if (!commandJson.d.content.StartsWith(config.CommandPrefix))
                                   return;
 
-                              if (text.Contains(command))
+                              if (commandJson.d.content.Contains(command))
                               {
                                   object obj = Activator.CreateInstance(type);
                                   method.Invoke(obj, new object[] { commandJson });
