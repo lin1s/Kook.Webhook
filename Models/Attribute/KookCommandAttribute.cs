@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tools
+﻿namespace Tools
 {
+    /// <summary>
+    /// 设置命令内容
+    /// </summary>
     [System.AttributeUsage(System.AttributeTargets.Method)]
     public class KookCommandAttribute : System.Attribute
     {

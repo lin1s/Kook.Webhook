@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.Attribute;
 using Models.Emun;
 using Newtonsoft.Json;
 using System.Reflection;
@@ -65,11 +66,33 @@ namespace Hook.Controllers
                               if (!commandJson.d.content.StartsWith(config.CommandPrefix))
                                   return;
 
-                              if (commandJson.d.content.Contains(command))
+                              KeywordLocal local = ((KeywordLocalAttribute)attrs[0]).GetLocal();
+                              switch (local)
                               {
-                                  object obj = Activator.CreateInstance(type);
-                                  method.Invoke(obj, new object[] { commandJson });
+                                  case KeywordLocal.Start:
+                                      if (commandJson.d.content.Remove(commandJson.d.content.IndexOf(config.CommandPrefix),config.CommandPrefix.Length).Trim().StartsWith(command))
+                                      {
+                                          object obj = Activator.CreateInstance(type);
+                                          method.Invoke(obj, new object[] { commandJson });
+                                      }
+                                      break;
+                                  case KeywordLocal.End:
+                                      if (commandJson.d.content.EndsWith(command))
+                                      {
+                                          object obj = Activator.CreateInstance(type);
+                                          method.Invoke(obj, new object[] { commandJson });
+                                      }
+                                      break;
+                                  case KeywordLocal.Contain:
+                                  default:
+                                      if (commandJson.d.content.Contains(command))
+                                      {
+                                          object obj = Activator.CreateInstance(type);
+                                          method.Invoke(obj, new object[] { commandJson });
+                                      }
+                                      break;
                               }
+
                           }
                       }
                   }

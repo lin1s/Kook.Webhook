@@ -25,6 +25,6 @@ namespace Tools
 
         public string EncryptKey { get; set; }
 
-        public string CommandPrefix { get; set;}
+        public string CommandPrefix { get; set; }
     }
 }
