@@ -16,13 +16,13 @@ namespace Hook.Controllers
         private readonly Config config = ConfigHelper.GetBaseConfig();
 
         [HttpPost]
-        public async Task<IActionResult> Challenge()
+        public IActionResult Challenge()
         {
             Challenge data = null;
             try
             {
                 StreamReader stream = new StreamReader(HttpContext.Request.Body, Encoding.UTF8);
-                var body = await stream.ReadToEndAsync();
+                var body = stream.ReadToEndAsync().Result;
                 Encryption encryption = JsonConvert.DeserializeObject<Encryption>(body);
                 string strDecrypt = Tool.Decrypt(encryption.encrypt, config.EncryptKey);
                 data = JsonConvert.DeserializeObject<Challenge>(strDecrypt);
@@ -48,7 +48,7 @@ namespace Hook.Controllers
                 return new JsonResult(new { challenge = data.d.challenge });
             }
 
-            await Task.Run(() =>
+            Task.Run(() =>
               {
                   Challenge commandJson = data;
                   Assembly commandAssembly = Assembly.LoadFrom(@"bin\Debug\net6.0\Command.dll");
@@ -56,21 +56,32 @@ namespace Hook.Controllers
                   {
                       foreach (MethodInfo method in type.GetMethods())
                       {
-                          var attrs = System.Attribute.GetCustomAttributes(method, typeof(KookCommandAttribute));
-                          if (attrs.Length != 0)
+                          string command = "";
+                          KeywordLocal local = KeywordLocal.Contain;
+                          var attrs = System.Attribute.GetCustomAttributes(method);
+
+                          foreach (var attr in attrs)
                           {
-                              string command = ((KookCommandAttribute)attrs[0]).GetCommand();
+                              if (attr is KookCommandAttribute)
+                                  command = ((KookCommandAttribute)attr).GetCommand();
+                              if (attr is KeywordLocalAttribute)
+                                  local = ((KeywordLocalAttribute)attr).GetLocal();
+                          }
+
+                          if (!string.IsNullOrEmpty(command))
+                          {
+
+
                               if (string.IsNullOrEmpty(commandJson.d.content))
                                   return;
 
                               if (!commandJson.d.content.StartsWith(config.CommandPrefix))
                                   return;
 
-                              KeywordLocal local = ((KeywordLocalAttribute)attrs[0]).GetLocal();
                               switch (local)
                               {
                                   case KeywordLocal.Start:
-                                      if (commandJson.d.content.Remove(commandJson.d.content.IndexOf(config.CommandPrefix),config.CommandPrefix.Length).Trim().StartsWith(command))
+                                      if (commandJson.d.content.Remove(commandJson.d.content.IndexOf(config.CommandPrefix), config.CommandPrefix.Length).Trim().StartsWith(command))
                                       {
                                           object obj = Activator.CreateInstance(type);
                                           method.Invoke(obj, new object[] { commandJson });
