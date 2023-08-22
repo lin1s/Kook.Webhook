@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Models;
+﻿using Json;
+using Microsoft.AspNetCore.Mvc;
 using Models.Attribute;
 using Models.Emun;
 using Newtonsoft.Json;
@@ -70,8 +70,6 @@ namespace Hook.Controllers
 
                           if (!string.IsNullOrEmpty(command))
                           {
-
-
                               if (string.IsNullOrEmpty(commandJson.d.content))
                                   return;
 

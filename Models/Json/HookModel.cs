@@ -1,7 +1,7 @@
 ﻿using Models.Emun;
 using Newtonsoft.Json.Linq;
 
-namespace Models
+namespace Json
 {
     public class Encryption
     {
