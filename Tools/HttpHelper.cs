@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace Tools
@@ -28,6 +29,46 @@ namespace Tools
                 {
                     if (contentType != null)
                         httpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+
+                    HttpResponseMessage response = client.PostAsync(url, httpContent).Result;
+                    return response.Content.ReadAsStringAsync().Result;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 发起POST同步请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postData"></param>
+        /// <param name="headers">填充消息头</param>
+        /// <returns></returns>
+        public static string HttpPost(string url, Dictionary<string, string> postData = null, Dictionary<string, Stream> postFile = null, int timeOut = 30, Dictionary<string, string> headers = null)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                if (headers != null)
+                {
+                    foreach (var header in headers)
+                        client.DefaultRequestHeaders.Add(header.Key, header.Value);
+                }
+                using (var httpContent = new MultipartFormDataContent())
+                {
+                    if (postData != null)
+                    {
+                        foreach (var key in postData.Keys)
+                        {
+                            httpContent.Add(new StringContent(postData[key], Encoding.UTF8), key);
+                        }
+                    }
+
+                    if (postFile != null)
+                    {
+                        foreach (var key in postFile.Keys)
+                        {
+                            httpContent.Add(new StreamContent(postFile[key]), key, "PNG.png");
+                        }
+                    }
 
                     HttpResponseMessage response = client.PostAsync(url, httpContent).Result;
                     return response.Content.ReadAsStringAsync().Result;

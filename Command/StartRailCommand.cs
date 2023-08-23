@@ -1,7 +1,11 @@
 ﻿using Json;
 using Models.Attribute;
 using Models.Emun;
+using Models.Json;
 using Newtonsoft.Json;
+using System;
+using System.Net;
+using System.Net.Http;
 using Tools;
 
 namespace Command
@@ -30,7 +34,6 @@ namespace Command
                 sendMsgModel.content = "接口网络出现问题，请稍后再试";
                 return;
             }
-
             List<Guide> guides = data.data.posts;
             Guide guide = guides.Find(x => x.post.subject.Contains(strCommand));
             if (guide == null)
@@ -38,17 +41,23 @@ namespace Command
                 sendMsgModel.content = "当前角色攻略不存在，请稍后再试";
                 return;
             }
-
             ImageList image = guide.image_list.MaxBy(x => x.height);
-            sendMsgModel.content = image.url;
 
-            string sendMsg = JsonConvert.SerializeObject(sendMsgModel);
             Dictionary<string, string> header = new Dictionary<string, string>();
-            header.Add("Authorization", "Bot " + config.Token); 
+            header.Add("Authorization", "Bot " + config.Token);
 
-                HttpHelper.HttpPost(config.BaseUrl + "/v3/message/create", sendMsg, headers: header);
+            HttpClient downloadClient = new HttpClient();
+            Stream stream = downloadClient.GetStreamAsync(image.url).Result;
+            Dictionary<string, Stream> postFile = new Dictionary<string, Stream>();
+            postFile.Add("file", stream);
+            string assetReturnMsg = HttpHelper.HttpPost(config.BaseUrl + "/v3/asset/create", postFile: postFile, headers: header);
+            AssetReturnMsg assetMsg = JsonConvert.DeserializeObject<AssetReturnMsg>(assetReturnMsg);
 
+            sendMsgModel.content = assetMsg.data.url;
+            string sendMsg = JsonConvert.SerializeObject(sendMsgModel);
             string a = HttpHelper.HttpPost(config.BaseUrl + "/v3/message/create", sendMsg, headers: header);
         }
+
+
     }
 }

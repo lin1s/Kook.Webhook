@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Tools
@@ -33,6 +34,5 @@ namespace Tools
                     return reader.ReadToEnd();
             }
         }
-
     }
 }
