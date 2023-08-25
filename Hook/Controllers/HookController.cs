@@ -51,7 +51,7 @@ namespace Hook.Controllers
             Task.Run(() =>
               {
                   Challenge commandJson = data;
-                  Assembly commandAssembly = Assembly.LoadFrom(@"bin\Debug\net6.0\Command.dll");
+                  Assembly commandAssembly = Assembly.LoadFrom(@"Command.dll");
                   foreach (Type type in commandAssembly.GetTypes())
                   {
                       foreach (MethodInfo method in type.GetMethods())
