@@ -1,10 +1,6 @@
 using Json;
 using Newtonsoft.Json;
-using System;
-using System.Net;
-using System.Reflection.PortableExecutable;
 using Tools;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TestProject
 {
@@ -33,12 +29,12 @@ namespace TestProject
             Dictionary<string, string> header = new Dictionary<string, string>();
             header.Add("Authorization", "Bot 1/MjI1MTg=/kou6KxFQ0+49QHTbCDrZyg==");
 
-                //var stream = response.Content.ReadAsStreamAsync().Result;
-                
-                //Dictionary<string, Stream> postFile = new Dictionary<string, Stream>();
-                //postFile.Add("file", stream);
+            //var stream = response.Content.ReadAsStreamAsync().Result;
 
-                //string returnMsg = HttpHelper.HttpPost("https://www.kookapp.cn/api/v3/asset/create", postFile: postFile, headers: header);
+            //Dictionary<string, Stream> postFile = new Dictionary<string, Stream>();
+            //postFile.Add("file", stream);
+
+            //string returnMsg = HttpHelper.HttpPost("https://www.kookapp.cn/api/v3/asset/create", postFile: postFile, headers: header);
 
             //HttpClient downloadClient = new();
             //Stream stream = await downloadClient.GetStreamAsync(
