@@ -1,4 +1,5 @@
-﻿using Json;
+﻿using Command.Base;
+using Json;
 using Microsoft.AspNetCore.Mvc;
 using Models.Attribute;
 using Models.Emun;
@@ -49,65 +50,77 @@ namespace Hook.Controllers
             }
 
             Task.Run(() =>
-              {
-                  Challenge commandJson = data;
-                  Assembly commandAssembly = Assembly.LoadFrom(@"Command.dll");
-                  foreach (Type type in commandAssembly.GetTypes())
-                  {
-                      foreach (MethodInfo method in type.GetMethods())
-                      {
-                          string command = "";
-                          KeywordLocal local = KeywordLocal.Contain;
-                          var attrs = System.Attribute.GetCustomAttributes(method);
+            {
+                Challenge commandJson = data;
 
-                          foreach (var attr in attrs)
-                          {
-                              if (attr is KookCommandAttribute)
-                                  command = ((KookCommandAttribute)attr).GetCommand();
-                              if (attr is KeywordLocalAttribute)
-                                  local = ((KeywordLocalAttribute)attr).GetLocal();
-                          }
+                var assemblyAllTypes = typeof(BaseCommand).Assembly.GetTypes();
+                foreach (var itemType in assemblyAllTypes)
+                {
+                    var baseType = itemType.BaseType;
+                    if (baseType != null)
+                    {
+                        if (baseType.Name == typeof(BaseCommand).Name)
+                        {
+                            foreach (MethodInfo method in itemType.GetMethods())
+                            {
+                                string command = "";
+                                KeywordLocal local = KeywordLocal.Contain;
+                                var attrs = System.Attribute.GetCustomAttributes(method);
 
-                          if (!string.IsNullOrEmpty(command))
-                          {
-                              if (string.IsNullOrEmpty(commandJson.d.content))
-                                  return;
+                                foreach (var attr in attrs)
+                                {
+                                    if (attr is KookCommandAttribute)
+                                        command = ((KookCommandAttribute)attr).GetCommand();
+                                    if (attr is KeywordLocalAttribute)
+                                        local = ((KeywordLocalAttribute)attr).GetLocal();
+                                }
 
-                              if (!commandJson.d.content.StartsWith(config.CommandPrefix))
-                                  return;
+                                if (!string.IsNullOrEmpty(command))
+                                {
+                                    if (string.IsNullOrEmpty(commandJson.d.content))
+                                        return;
 
-                              switch (local)
-                              {
-                                  case KeywordLocal.Start:
-                                      if (commandJson.d.content.Remove(commandJson.d.content.IndexOf(config.CommandPrefix), config.CommandPrefix.Length).Trim().StartsWith(command))
-                                      {
-                                          object obj = Activator.CreateInstance(type);
-                                          method.Invoke(obj, new object[] { commandJson });
-                                      }
-                                      break;
-                                  case KeywordLocal.End:
-                                      if (commandJson.d.content.EndsWith(command))
-                                      {
-                                          object obj = Activator.CreateInstance(type);
-                                          method.Invoke(obj, new object[] { commandJson });
-                                      }
-                                      break;
-                                  case KeywordLocal.Contain:
-                                  default:
-                                      if (commandJson.d.content.Contains(command))
-                                      {
-                                          object obj = Activator.CreateInstance(type);
-                                          method.Invoke(obj, new object[] { commandJson });
-                                      }
-                                      break;
-                              }
+                                    if (!commandJson.d.content.StartsWith(config.CommandPrefix))
+                                        return;
 
-                          }
-                      }
-                  }
-              });
+                                    switch (local)
+                                    {
+                                        case KeywordLocal.Start:
+                                            if (commandJson.d.content.Remove(commandJson.d.content.IndexOf(config.CommandPrefix), config.CommandPrefix.Length).Trim().StartsWith(command))
+                                            {
+                                                object obj = Activator.CreateInstance(itemType);
+                                                method.Invoke(obj, new object[] { commandJson });
+                                            }
+                                            break;
+                                        case KeywordLocal.End:
+                                            if (commandJson.d.content.EndsWith(command))
+                                            {
+                                                object obj = Activator.CreateInstance(itemType);
+                                                method.Invoke(obj, new object[] { commandJson });
+                                            }
+                                            break;
+                                        case KeywordLocal.Contain:
+                                        default:
+                                            if (commandJson.d.content.Contains(command))
+                                            {
+                                                object obj = Activator.CreateInstance(itemType);
+                                                method.Invoke(obj, new object[] { commandJson });
+                                            }
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
 
             return new JsonResult(new { code = "200" });
+        }
+
+        public IActionResult Test()
+        {
+            return new JsonResult(new { code = "200", message = "测试成功" });
         }
     }
 }

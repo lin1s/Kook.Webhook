@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /Hook/appsettings.Development.json
 /Hook/appsettings.json
+/Hook/Properties/launchSettings.json
