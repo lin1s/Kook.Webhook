@@ -2,7 +2,6 @@
 using Json;
 using Models.Attribute;
 using Models.Emun;
-using Models.Json;
 using Newtonsoft.Json;
 using Tools;
 
@@ -11,7 +10,7 @@ namespace Command
     public class StartRailCommand : BaseCommand
     {
         private readonly Config config = ConfigHelper.GetBaseConfig();
-        Dictionary<string, SendMsgModel> picCache = new Dictionary<string, SendMsgModel>();
+        private static Dictionary<string, SendMsgModel> picCache = new Dictionary<string, SendMsgModel>();
 
         [KookCommand("攻略")]
         [KeywordLocal(KeywordLocal.End)]
@@ -23,15 +22,9 @@ namespace Command
             string strCommand = strContent.Remove(strContent.IndexOf("攻略"), "攻略".Length).
                                            Remove(strContent.IndexOf(config.CommandPrefix), config.CommandPrefix.Length).Trim();
 
-            string sendMsg;
-            Dictionary<string, string> header = new Dictionary<string, string>
-            {
-                { "Authorization", "Bot " + config.Token }
-            };
             if (picCache.Keys.Where(x => x == strCommand).Any())
             {
-                sendMsg = JsonConvert.SerializeObject(picCache[strCommand]);
-                HttpHelper.HttpPost(config.BaseUrl + "/v3/message/create", sendMsg, headers: header);
+                KooKAPIHelpser.MessageCreate(picCache[strCommand]);
                 return;
             }
 
@@ -56,16 +49,11 @@ namespace Command
 
             HttpClient downloadClient = new HttpClient();
             Stream stream = downloadClient.GetStreamAsync(image.url).Result;
-            Dictionary<string, Stream> postFile = new Dictionary<string, Stream>();
-            postFile.Add("file", stream);
-            string assetReturnMsg = HttpHelper.HttpPost(config.BaseUrl + "/v3/asset/create", postFile: postFile, headers: header);
-            AssetReturnMsg assetMsg = JsonConvert.DeserializeObject<AssetReturnMsg>(assetReturnMsg);
 
+            sendMsgModel.content = KooKAPIHelpser.AssetCreate(stream).data.url;
             sendMsgModel.type = MessageType.Pic;
-            sendMsgModel.content = assetMsg.data.url;
             picCache.Add(strCommand, sendMsgModel);
-            sendMsg = JsonConvert.SerializeObject(sendMsgModel);
-            HttpHelper.HttpPost(config.BaseUrl + "/v3/message/create", sendMsg, headers: header);
+            KooKAPIHelpser.MessageCreate(sendMsgModel);
         }
 
 

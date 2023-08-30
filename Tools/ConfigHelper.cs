@@ -28,5 +28,7 @@ namespace Tools
         public string CommandPrefix { get; set; }
 
         public string BaseUrl { get; set; }
+
+        public int Limit { get; set; }
     }
 }
