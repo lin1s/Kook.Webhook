@@ -46,7 +46,7 @@ namespace Tools
             else if (ReturnMsg.code == 429)
             {
                 int Remaining = Convert.ToInt32(responseHeader.GetValues("X-Rate-Limit-Reset").First());
-                Task.Delay(1000);
+                Task.Delay(Remaining * 1000);
                 return CheckSpeedLimiter(bucket, url, postData);
             }
 
@@ -84,7 +84,7 @@ namespace Tools
             else if (ReturnMsg.code == 429)
             {
                 int Remaining = Convert.ToInt32(responseHeader.GetValues("X-Rate-Limit-Reset").First());
-                Task.Delay(1000);
+                Task.Delay(Remaining * 1000);
                 return CheckSpeedLimiter(bucket, url, postData, postFile);
             }
 

@@ -7,12 +7,6 @@ namespace Tools
 {
     public static class KooKAPIHelpser
     {
-        private static Config BaseConfig = ConfigHelper.GetBaseConfig();
-
-        private static Dictionary<string, string> header = new Dictionary<string, string>
-        {
-            { "Authorization", "Bot " + BaseConfig.Token }
-        };
 
         #region AssetCreate
 
