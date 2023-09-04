@@ -2,6 +2,8 @@
 using Json;
 using Models.Attribute;
 using Models.Emun;
+using Models.Response;
+using Models.Response.Guild;
 using Newtonsoft.Json;
 using Tools;
 
@@ -12,8 +14,7 @@ namespace Command
         private readonly Config config = ConfigHelper.GetBaseConfig();
         private static Dictionary<string, SendMsgModel> picCache = new Dictionary<string, SendMsgModel>();
 
-        [KookCommand("攻略")]
-        [KeywordLocal(KeywordLocal.End)]
+        [KookCommand("攻略", KeywordLocal.End)]
         public void GetData(Challenge commandJson)
         {
             if (commandJson.d.type != MessageType.Kmarkdown) return;
@@ -56,6 +57,11 @@ namespace Command
             KooKAPIHelpser.MessageCreate(sendMsgModel);
         }
 
-
+        [KookCommand("测试", KeywordLocal.Contain)]
+        public void TestApi(Challenge commandJson)
+        {
+            BaseReturnMsg a = KooKAPIHelpser.GuildList();
+            GuildList item = JsonConvert.DeserializeObject<GuildList>(a.data.ToString());
+        }
     }
 }

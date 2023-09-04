@@ -67,16 +67,12 @@ namespace Hook.Controllers
                                 KeywordLocal local = KeywordLocal.Contain;
                                 var attrs = System.Attribute.GetCustomAttributes(method);
 
-                                foreach (var attr in attrs)
+                                Attribute attr = attrs.Where(x => x.Match(typeof(KookCommandAttribute))).FirstOrDefault();
+                                if (attr is KookCommandAttribute)
                                 {
-                                    if (attr is KookCommandAttribute)
-                                        command = ((KookCommandAttribute)attr).GetCommand();
-                                    if (attr is KeywordLocalAttribute)
-                                        local = ((KeywordLocalAttribute)attr).GetLocal();
-                                }
+                                    command = ((KookCommandAttribute)attr).GetCommand();
+                                    local = ((KookCommandAttribute)attr).GetLocal();
 
-                                if (!string.IsNullOrEmpty(command))
-                                {
                                     if (string.IsNullOrEmpty(commandJson.d.content))
                                         return;
 
@@ -118,6 +114,8 @@ namespace Hook.Controllers
             return new JsonResult(new { code = "200" });
         }
 
+        [HttpPost]
+        [HttpGet]
         public IActionResult Test()
         {
             return new JsonResult(new { code = "200", message = "测试成功" });

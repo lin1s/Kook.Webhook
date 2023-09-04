@@ -1,4 +1,6 @@
-﻿namespace Tools
+﻿using Models.Emun;
+
+namespace Tools
 {
     /// <summary>
     /// 设置命令内容
@@ -8,8 +10,16 @@
     {
         string Command;
 
-        public KookCommandAttribute(string command) => Command = command;
+        KeywordLocal Local;
+
+        public KookCommandAttribute(string command, KeywordLocal local)
+        {
+            Command = command;
+            Local = local;
+        }
 
         public string GetCommand() => Command;
+
+        public KeywordLocal GetLocal() => Local;
     }
 }

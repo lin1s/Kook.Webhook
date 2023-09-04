@@ -1,4 +1,7 @@
-﻿namespace Models.Json
+﻿using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
+
+namespace Models.Response
 {
     public class BaseReturnMsg
     {
@@ -6,17 +9,19 @@
 
         public string message { get; set; }
 
-        public BaseReturnData data { get; set; }
+        public JToken data { get; set; }
     }
 
-    public class BaseReturnData
+
+
+    public class MsgReturnData
     {
         public Guid msg_id { get; set; }
 
         public string msg_timestamp { get; set; }
 
         public string nonce { get; set; }
-
-        //public JsonObject not_permissions_mention { get; set; }
     }
+
+
 }
