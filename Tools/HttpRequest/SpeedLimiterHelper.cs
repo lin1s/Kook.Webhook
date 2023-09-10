@@ -2,7 +2,6 @@
 using Models.Response;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using System.Reflection.PortableExecutable;
 
 namespace Tools
 {

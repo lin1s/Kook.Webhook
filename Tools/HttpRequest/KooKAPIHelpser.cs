@@ -4,7 +4,6 @@ using Models.Json;
 using Models.Request.Guild;
 using Models.Response;
 using Newtonsoft.Json;
-using System.Net.Http.Headers;
 
 namespace Tools
 {
@@ -17,16 +16,16 @@ namespace Tools
             string data = "";
             if (msgData != null)
             {
-                if (!string.IsNullOrEmpty(msgData.page)) data += "&page=" + msgData.page;
-                if (!string.IsNullOrEmpty(msgData.page)) data += "&page_size=" + msgData.page_size;
-                if (msgData.sort_type != null && msgData.sort_field != null)
+                if (!string.IsNullOrEmpty(msgData.Page)) data += "&page=" + msgData.Page;
+                if (!string.IsNullOrEmpty(msgData.PageSize)) data += "&page_size=" + msgData.PageSize;
+                if (msgData.SortType != null && msgData.SortField != null)
                 {
                     string sort = "";
-                    if (msgData.sort_type == SortType.Descending)
+                    if (msgData.SortType == SortType.Descending)
                     {
                         sort = "-";
                     }
-                    sort += msgData.sort_field;
+                    sort += msgData.SortField;
                     data += "&sort=" + sort;
                 }
             }
@@ -35,6 +34,11 @@ namespace Tools
                 url += "?" + data.Remove(0, 1);
 
             return SpeedLimiterHelper.CheckSpeedLimiter("guild/list", url);
+        }
+
+        public static BaseReturnMsg GuildView(GuildViewSendMsg msgData)
+        {
+            return SpeedLimiterHelper.CheckSpeedLimiter("guild/list", "/v3/guild/view?guild_id=" + msgData.GuildID);
         }
 
         #endregion
