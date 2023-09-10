@@ -4,14 +4,15 @@ using Models.Json;
 using Models.Request.Guild;
 using Models.Response;
 using Newtonsoft.Json;
+using Tools;
 
-namespace Tools
+namespace Services
 {
-    public static class KooKAPIHelpser
+    public class KookApiServices : IKookApiServices
     {
         #region Guild
 
-        public static BaseReturnMsg GuildList(GuildListSendMsg msgData = null)
+        public BaseReturnMsg GuildList(GuildListSendMsg msgData = null)
         {
             string data = "";
             if (msgData != null)
@@ -36,7 +37,7 @@ namespace Tools
             return SpeedLimiterHelper.CheckSpeedLimiter("guild/list", url);
         }
 
-        public static BaseReturnMsg GuildView(GuildViewSendMsg msgData)
+        public BaseReturnMsg GuildView(GuildViewSendMsg msgData)
         {
             return SpeedLimiterHelper.CheckSpeedLimiter("guild/list", "/v3/guild/view?guild_id=" + msgData.GuildID);
         }
@@ -45,7 +46,7 @@ namespace Tools
 
         #region AssetCreate
 
-        public static AssetReturnMsg AssetCreate(Stream file)
+        public AssetReturnMsg AssetCreate(Stream file)
         {
             Dictionary<string, Stream> postFile = new Dictionary<string, Stream>();
             postFile.Add("file", file);
@@ -57,12 +58,13 @@ namespace Tools
 
         #region Message
 
-        public static BaseReturnMsg MessageCreate(SendMsgModel msgData)
+        public BaseReturnMsg MessageCreate(SendMsgModel msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData);
             return SpeedLimiterHelper.CheckSpeedLimiter("message/create", "/v3/message/create", sendMsg);
         }
 
         #endregion
+
     }
 }

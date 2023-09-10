@@ -3,6 +3,7 @@ using Json;
 using Models.Emun;
 using Models.Response;
 using Newtonsoft.Json;
+using Services;
 using Tools;
 
 namespace Command
@@ -11,6 +12,11 @@ namespace Command
     {
         private readonly Config config = ConfigHelper.GetBaseConfig();
         private static Dictionary<string, SendMsgModel> picCache = new Dictionary<string, SendMsgModel>();
+        private readonly IKookApiServices _services;
+        public StartRailCommand(IKookApiServices services)
+        {
+            _services = services;
+        }
 
         [KookCommand("攻略", KeywordLocal.End)]
         public void GetData(Challenge commandJson)
@@ -23,7 +29,7 @@ namespace Command
 
             if (picCache.Keys.Where(x => x == strCommand).Any())
             {
-                KooKAPIHelpser.MessageCreate(picCache[strCommand]);
+                _services.MessageCreate(picCache[strCommand]);
                 return;
             }
 
@@ -49,16 +55,16 @@ namespace Command
             HttpClient downloadClient = new HttpClient();
             Stream stream = downloadClient.GetStreamAsync(image.url).Result;
 
-            sendMsgModel.content = KooKAPIHelpser.AssetCreate(stream).data.url;
+            sendMsgModel.content = _services.AssetCreate(stream).data.url;
             sendMsgModel.type = MessageType.Pic;
             picCache.Add(strCommand, sendMsgModel);
-            KooKAPIHelpser.MessageCreate(sendMsgModel);
+            _services.MessageCreate(sendMsgModel);
         }
 
         [KookCommand("测试", KeywordLocal.Contain)]
         public void TestApi(Challenge commandJson)
         {
-            BaseReturnMsg a = KooKAPIHelpser.GuildList();
+            BaseReturnMsg a = _services.GuildList();
             GuildList item = JsonConvert.DeserializeObject<GuildList>(a.data.ToString());
         }
     }

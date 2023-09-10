@@ -5,6 +5,9 @@ using System.Net.Http.Headers;
 
 namespace Tools
 {
+    /// <summary>
+    /// 限速器
+    /// </summary>
     public static class SpeedLimiterHelper
     {
         private static Config BaseConfig = ConfigHelper.GetBaseConfig();

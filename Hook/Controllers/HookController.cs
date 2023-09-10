@@ -34,12 +34,14 @@ namespace Hook.Controllers
 
                 if (data.d.verify_token != config.VerifyToken)
                 {
+                    Console.WriteLine("验证token错误，请确认网络环境");
                     LogHelper.Default.Warn("验证token错误，请确认网络环境");
                 }
             }
             catch (Exception ex)
             {
                 LogHelper.Default.Error("数据解析错误", ex);
+                Console.WriteLine(ex.ToString());
                 return new JsonResult(new { code = "200" });
             }
 
@@ -56,57 +58,54 @@ namespace Hook.Controllers
                 foreach (var itemType in assemblyAllTypes)
                 {
                     var baseType = itemType.BaseType;
-                    if (baseType != null)
+                    if (baseType != null && baseType.Name == typeof(BaseCommand).Name && itemType.Name != typeof(BaseCommand).Name)
                     {
-                        if (baseType.Name == typeof(BaseCommand).Name)
+                        foreach (MethodInfo method in itemType.GetMethods())
                         {
-                            foreach (MethodInfo method in itemType.GetMethods())
+                            string command = "";
+                            KeywordLocal local = KeywordLocal.Contain;
+                            var attrs = System.Attribute.GetCustomAttributes(method);
+                            Attribute attr = attrs.Where(x => x.Match(typeof(KookCommandAttribute))).FirstOrDefault();
+                            if (attr is KookCommandAttribute)
                             {
-                                string command = "";
-                                KeywordLocal local = KeywordLocal.Contain;
-                                var attrs = System.Attribute.GetCustomAttributes(method);
+                                command = ((KookCommandAttribute)attr).GetCommand();
+                                local = ((KookCommandAttribute)attr).GetLocal();
 
-                                Attribute attr = attrs.Where(x => x.Match(typeof(KookCommandAttribute))).FirstOrDefault();
-                                if (attr is KookCommandAttribute)
+                                if (string.IsNullOrEmpty(commandJson.d.content))
+                                    return;
+
+                                if (!commandJson.d.content.StartsWith(config.CommandPrefix))
+                                    return;
+
+                                switch (local)
                                 {
-                                    command = ((KookCommandAttribute)attr).GetCommand();
-                                    local = ((KookCommandAttribute)attr).GetLocal();
-
-                                    if (string.IsNullOrEmpty(commandJson.d.content))
-                                        return;
-
-                                    if (!commandJson.d.content.StartsWith(config.CommandPrefix))
-                                        return;
-
-                                    switch (local)
-                                    {
-                                        case KeywordLocal.Start:
-                                            if (commandJson.d.content.Remove(commandJson.d.content.IndexOf(config.CommandPrefix), config.CommandPrefix.Length).Trim().StartsWith(command))
-                                            {
-                                                object obj = Activator.CreateInstance(itemType);
-                                                method.Invoke(obj, new object[] { commandJson });
-                                            }
-                                            break;
-                                        case KeywordLocal.End:
-                                            if (commandJson.d.content.EndsWith(command))
-                                            {
-                                                object obj = Activator.CreateInstance(itemType);
-                                                method.Invoke(obj, new object[] { commandJson });
-                                            }
-                                            break;
-                                        case KeywordLocal.Contain:
-                                        default:
-                                            if (commandJson.d.content.Contains(command))
-                                            {
-                                                object obj = Activator.CreateInstance(itemType);
-                                                method.Invoke(obj, new object[] { commandJson });
-                                            }
-                                            break;
-                                    }
+                                    case KeywordLocal.Start:
+                                        if (commandJson.d.content.Remove(commandJson.d.content.IndexOf(config.CommandPrefix), config.CommandPrefix.Length).Trim().StartsWith(command))
+                                        {
+                                            object obj = Activator.CreateInstance(itemType);
+                                            method.Invoke(obj, new object[] { commandJson });
+                                        }
+                                        break;
+                                    case KeywordLocal.End:
+                                        if (commandJson.d.content.EndsWith(command))
+                                        {
+                                            object obj = Activator.CreateInstance(itemType);
+                                            method.Invoke(obj, new object[] { commandJson });
+                                        }
+                                        break;
+                                    case KeywordLocal.Contain:
+                                    default:
+                                        if (commandJson.d.content.Contains(command))
+                                        {
+                                            object obj = Activator.CreateInstance(itemType);
+                                            method.Invoke(obj, new object[] { commandJson });
+                                        }
+                                        break;
                                 }
                             }
                         }
                     }
+
                 }
             });
 
