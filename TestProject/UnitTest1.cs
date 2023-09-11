@@ -1,5 +1,8 @@
+using Command;
 using Models.Response;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 using Tools;
 
 namespace TestProject
@@ -30,6 +33,20 @@ namespace TestProject
 
             Dictionary<string, string> header = new Dictionary<string, string>();
             header.Add("Authorization", "Bot 1/MjI1MTg=/kou6KxFQ0+49QHTbCDrZyg==");
+        }
+
+        [TestMethod]
+        public void ReflectionTest()
+        {
+            ConstructorInfo[] properties = typeof(StartRailCommand).GetConstructors();
+
+            var a = properties[0].GetParameters();
+
+            foreach (var b in a)
+            {
+                Type t = b.ParameterType;
+            }
+
         }
     }
 }

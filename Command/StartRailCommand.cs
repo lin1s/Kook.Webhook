@@ -13,6 +13,7 @@ namespace Command
         private readonly Config config = ConfigHelper.GetBaseConfig();
         private static Dictionary<string, SendMsgModel> picCache = new Dictionary<string, SendMsgModel>();
         private readonly IKookApiServices _services;
+
         public StartRailCommand(IKookApiServices services)
         {
             _services = services;

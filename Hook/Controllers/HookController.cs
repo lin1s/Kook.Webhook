@@ -3,6 +3,7 @@ using Json;
 using Microsoft.AspNetCore.Mvc;
 using Models.Emun;
 using Newtonsoft.Json;
+using Services;
 using System.Reflection;
 using System.Text;
 using Tools;
@@ -14,6 +15,12 @@ namespace Hook.Controllers
     public class HookController : ControllerBase
     {
         private readonly Config config = ConfigHelper.GetBaseConfig();
+        private readonly IServiceProvider _serviceProvider;
+
+        public HookController(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
         [HttpPost]
         public IActionResult Challenge()
@@ -65,50 +72,64 @@ namespace Hook.Controllers
                             string command = "";
                             KeywordLocal local = KeywordLocal.Contain;
                             var attrs = System.Attribute.GetCustomAttributes(method);
-                            Attribute attr = attrs.Where(x => x.Match(typeof(KookCommandAttribute))).FirstOrDefault();
-                            if (attr is KookCommandAttribute)
+                            foreach (Attribute attr in attrs)
                             {
-                                command = ((KookCommandAttribute)attr).GetCommand();
-                                local = ((KookCommandAttribute)attr).GetLocal();
-
-                                if (string.IsNullOrEmpty(commandJson.d.content))
-                                    return;
-
-                                if (!commandJson.d.content.StartsWith(config.CommandPrefix))
-                                    return;
-
-                                switch (local)
+                                if (attr is KookCommandAttribute)
                                 {
-                                    case KeywordLocal.Start:
-                                        if (commandJson.d.content.Remove(commandJson.d.content.IndexOf(config.CommandPrefix), config.CommandPrefix.Length).Trim().StartsWith(command))
-                                        {
-                                            object obj = Activator.CreateInstance(itemType);
-                                            method.Invoke(obj, new object[] { commandJson });
-                                        }
-                                        break;
-                                    case KeywordLocal.End:
-                                        if (commandJson.d.content.EndsWith(command))
-                                        {
-                                            object obj = Activator.CreateInstance(itemType);
-                                            method.Invoke(obj, new object[] { commandJson });
-                                        }
-                                        break;
-                                    case KeywordLocal.Contain:
-                                    default:
-                                        if (commandJson.d.content.Contains(command))
-                                        {
-                                            object obj = Activator.CreateInstance(itemType);
-                                            method.Invoke(obj, new object[] { commandJson });
-                                        }
-                                        break;
+                                    command = ((KookCommandAttribute)attr).GetCommand();
+                                    local = ((KookCommandAttribute)attr).GetLocal();
+
+                                    if (string.IsNullOrEmpty(commandJson.d.content))
+                                        return;
+
+                                    if (!commandJson.d.content.StartsWith(config.CommandPrefix))
+                                        return;
+
+                                    ConstructorInfo[] properties = itemType.GetConstructors();
+                                    ParameterInfo[] paramsList = properties[0].GetParameters();
+                                    List<object> arg = new List<object>();
+
+                                    foreach (ParameterInfo param in paramsList)
+                                    {
+                                        arg.Add(_serviceProvider.GetService(param.ParameterType));
+                                    }
+
+                                    switch (local)
+                                    {
+                                        case KeywordLocal.Start:
+                                            if (commandJson.d.content.Remove(commandJson.d.content.IndexOf(config.CommandPrefix), config.CommandPrefix.Length).Trim().StartsWith(command))
+                                            {
+                                                object obj = ActivatorUtilities.CreateInstance(_serviceProvider, itemType);
+                                                method.Invoke(obj, new object[] { commandJson });
+                                                return;
+                                            }
+                                            break;
+                                        case KeywordLocal.End:
+                                            if (commandJson.d.content.EndsWith(command))
+                                            {
+                                                object obj = ActivatorUtilities.CreateInstance(_serviceProvider, itemType);
+                                                method.Invoke(obj, new object[] { commandJson });
+                                                return;
+                                            }
+                                            break;
+                                        case KeywordLocal.Contain:
+                                        default:
+                                            if (commandJson.d.content.Contains(command))
+                                            {
+                                                object obj = ActivatorUtilities.CreateInstance(_serviceProvider, itemType);
+                                                method.Invoke(obj, new object[] { commandJson });
+                                                return;
+                                            }
+                                            break;
+                                    }
                                 }
+
                             }
                         }
                     }
 
                 }
             });
-
             return new JsonResult(new { code = "200" });
         }
 

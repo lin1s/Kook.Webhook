@@ -16,7 +16,7 @@ namespace Hook
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddScoped(typeof(IKookApiServices), typeof(KookApiServices));
+            builder.Services.AddTransient(typeof(IKookApiServices), typeof(KookApiServices));
 
             ConfigHelper.Init(builder.Configuration);
             builder.Logging.AddNLog("Config/Nlog.config");
