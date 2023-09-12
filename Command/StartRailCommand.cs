@@ -1,6 +1,7 @@
 ﻿using Command.Base;
 using Json;
 using Models.Emun;
+using Models.Request.Guild;
 using Models.Response;
 using Newtonsoft.Json;
 using Services;
@@ -65,8 +66,10 @@ namespace Command
         [KookCommand("测试", KeywordLocal.Contain)]
         public void TestApi(Challenge commandJson)
         {
-            BaseReturnMsg a = _services.GuildList();
-            GuildList item = JsonConvert.DeserializeObject<GuildList>(a.data.ToString());
+            GuildUserListSendMsg guildUserListSendMsg = new GuildUserListSendMsg();
+            guildUserListSendMsg.guild_id = "8788733604562195";
+            BaseReturnMsg a = _services.GuildUserList(guildUserListSendMsg);
+            GuildUserList item = JsonConvert.DeserializeObject<GuildUserList>(a.data.ToString());
         }
     }
 }

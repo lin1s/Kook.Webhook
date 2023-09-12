@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command", "Command\Command.csproj", "{ECBBD4DF-63DA-4843-AB57-6B6C43EC133A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{26A2B775-7DEE-423D-8704-D0FB10FA2136}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{26A2B775-7DEE-423D-8704-D0FB10FA2136}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

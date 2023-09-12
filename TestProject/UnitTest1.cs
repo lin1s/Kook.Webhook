@@ -1,7 +1,6 @@
 using Command;
 using Models.Response;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Reflection;
 using Tools;
 
@@ -19,11 +18,11 @@ namespace TestProject
         [TestMethod]
         public void JsonConvertTest()
         {
-            //string strDecrypt = "{\r\n  \"items\": [\r\n    {\r\n      \"id\": \"8788733604562195\",\r\n      \"name\": \"test\",\r\n      \"topic\": \"\",\r\n      \"master_id\": \"2718816871\",\r\n      \"user_id\": \"2718816871\",\r\n      \"is_master\": false,\r\n      \"icon\": \"\",\r\n      \"notify_type\": 2,\r\n      \"region\": \"shenzhen\",\r\n      \"enable_open\": false,\r\n      \"open_id\": \"0\",\r\n      \"default_channel_id\": \"7916827130763003\",\r\n      \"welcome_channel_id\": \"4422906926570372\"\r\n    }\r\n  ],\r\n  \"meta\": {\r\n    \"page\": 1,\r\n    \"page_total\": 1,\r\n    \"page_size\": 100,\r\n    \"total\": 1\r\n  },\r\n  \"sort\": {}\r\n}\r\n";
-            //BaseReturnMsg a = JsonConvert.DeserializeObject<BaseReturnMsg>(strDecrypt);
+            string strDecrypt = "{\r\n  \"id\": \"1c4532f6-*********-93e9-6347f410f91c\",\r\n  \"type\": 1,\r\n  \"content\": \"hello world\",\r\n  \"create_at\": 1628069285358,\r\n  \"author\": {\r\n    \"id\": \"308****000\",\r\n    \"username\": \"¸Ç Â×\",\r\n    \"identify_num\": \"**10\",\r\n    \"online\": true,\r\n    \"os\": \"Websocket\",\r\n    \"status\": 1,\r\n    \"avatar\": \"https://xxx.jpg/icon\",\r\n    \"vip_avatar\": \"\",\r\n    \"nickname\": \"***11377\",\r\n    \"roles\": [\r\n      102,\r\n      816\r\n    ],\r\n    \"is_vip\": false,\r\n    \"bot\": false,\r\n    \"mobile_verified\": true,\r\n    \"joined_at\": 1573816459000,\r\n    \"active_time\": 1628229821490\r\n  }\r\n}";
+            var a = JsonConvert.DeserializeObject<Quote>(strDecrypt);
 
-            BaseReturnMsg b = new BaseReturnMsg();
-            string c = JsonConvert.SerializeObject(b, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            //BaseReturnMsg b = new BaseReturnMsg();
+            //string c = JsonConvert.SerializeObject(b, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
         }
 
         [TestMethod]

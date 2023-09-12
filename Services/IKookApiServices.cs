@@ -13,6 +13,7 @@ namespace Services
 
         public BaseReturnMsg GuildView(GuildViewSendMsg msgData);
 
+        BaseReturnMsg GuildUserList(GuildUserListSendMsg msgData);
         #endregion
 
         #region AssetCreate

@@ -3,7 +3,6 @@ using Json;
 using Microsoft.AspNetCore.Mvc;
 using Models.Emun;
 using Newtonsoft.Json;
-using Services;
 using System.Reflection;
 using System.Text;
 using Tools;
@@ -23,13 +22,13 @@ namespace Hook.Controllers
         }
 
         [HttpPost]
-        public IActionResult Challenge()
+        public async Task<IActionResult> Challenge()
         {
             Challenge data = null;
             try
             {
                 StreamReader stream = new StreamReader(HttpContext.Request.Body, Encoding.UTF8);
-                var body = stream.ReadToEndAsync().Result;
+                var body = await stream.ReadToEndAsync();
                 Encryption encryption = JsonConvert.DeserializeObject<Encryption>(body);
                 string strDecrypt = Tool.Decrypt(encryption.encrypt, config.EncryptKey);
                 data = JsonConvert.DeserializeObject<Challenge>(strDecrypt);
@@ -57,6 +56,7 @@ namespace Hook.Controllers
                 return new JsonResult(new { challenge = data.d.challenge });
             }
 
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
             Task.Run(() =>
             {
                 Challenge commandJson = data;
@@ -130,6 +130,8 @@ namespace Hook.Controllers
 
                 }
             });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+
             return new JsonResult(new { code = "200" });
         }
 
