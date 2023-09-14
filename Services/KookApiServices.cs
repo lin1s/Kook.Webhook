@@ -171,6 +171,11 @@ namespace Services
         }
         #endregion
 
+        #region Channel
+
+
+        #endregion
+
         #region AssetCreate  
 
         public AssetReturnMsg AssetCreate(Stream file)

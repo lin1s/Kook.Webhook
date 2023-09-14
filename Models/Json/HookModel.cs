@@ -17,7 +17,7 @@ namespace Json
 
     public class ChallengData
     {
-        public ChannelType channel_type { get; set; }
+        public ChallengeType channel_type { get; set; }
 
         public MessageType type { get; set; }
 

@@ -51,7 +51,7 @@ namespace Hook.Controllers
                 return new JsonResult(new { code = "200" });
             }
 
-            if (data.d.type == MessageType.System && data.d.channel_type == ChannelType.WEBHOOK_CHALLENGE)
+            if (data.d.type == MessageType.System && data.d.channel_type == ChallengeType.WEBHOOK_CHALLENGE)
             {
                 return new JsonResult(new { challenge = data.d.challenge });
             }

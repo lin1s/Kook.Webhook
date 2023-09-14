@@ -224,18 +224,34 @@ namespace Models.Response
         /// </summary>
         public int parent_id { get; set; }
 
-        public int level { get; set; }
-
         /// <summary>
         /// 排序 level
         /// </summary>
-        public int type { get; set; }
+        public int level { get; set; }
 
         /// <summary>
         /// 慢速模式下限制发言的最短时间间隔, 单位为秒(s)
         /// </summary>
         public int slow_mode { get; set; }
 
+        /// <summary>
+        /// 频道类型: 1 文字频道, 2 语音频道
+        /// </summary>
+        public int type { get; set; }
+
+        public List<PermissionOverwrites> permission_overwrites { get; set; }
+
+        public List<PermissionUsers> permission_users { get; set; }
+
+        /// <summary>
+        /// 权限设置是否与分组同步, 1 or 0
+        /// </summary>
+        public int permission_sync { get; set; }
+
+        /// <summary>
+        /// 是否有密码
+        /// </summary>
+        public bool has_password { get; set; }
     }
 
     /// <summary>
@@ -330,5 +346,39 @@ namespace Models.Response
         public string nonce { get; set; }
     }
 
+    public class PermissionOverwrites
+    {
+        /// <summary>
+        /// 角色id
+        /// </summary>
+        public int role_id { get; set; }
 
+        /// <summary>
+        /// 最终修改成功后，允许的权限的结果集
+        /// </summary>
+        public int allow { get; set; }
+
+        /// <summary>
+        /// 最终修改成功后，拒绝的权限的结果集
+        /// </summary>
+        public int deny { get; set; }
+    }
+
+    public class PermissionUsers
+    {
+        /// <summary>
+        /// 用户详情
+        /// </summary>
+        public UserDetail user { get; set; }
+
+        /// <summary>
+        /// 最终修改成功后，允许的权限的结果集
+        /// </summary>
+        public int allow { get; set; }
+
+        /// <summary>
+        /// 最终修改成功后，拒绝的权限的结果集
+        /// </summary>
+        public int deny { get; set; }
+    }
 }

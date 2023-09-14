@@ -3,6 +3,7 @@ using Models.Response;
 using Newtonsoft.Json;
 using System.Reflection;
 using Tools;
+using static Models.Response.Channel;
 
 namespace TestProject
 {
@@ -18,10 +19,12 @@ namespace TestProject
         [TestMethod]
         public void JsonConvertTest()
         {
-            string strDecrypt = "{\r\n  \"id\": \"1c4532f6-*********-93e9-6347f410f91c\",\r\n  \"type\": 1,\r\n  \"content\": \"hello world\",\r\n  \"create_at\": 1628069285358,\r\n  \"author\": {\r\n    \"id\": \"308****000\",\r\n    \"username\": \"¸Ç Â×\",\r\n    \"identify_num\": \"**10\",\r\n    \"online\": true,\r\n    \"os\": \"Websocket\",\r\n    \"status\": 1,\r\n    \"avatar\": \"https://xxx.jpg/icon\",\r\n    \"vip_avatar\": \"\",\r\n    \"nickname\": \"***11377\",\r\n    \"roles\": [\r\n      102,\r\n      816\r\n    ],\r\n    \"is_vip\": false,\r\n    \"bot\": false,\r\n    \"mobile_verified\": true,\r\n    \"joined_at\": 1573816459000,\r\n    \"active_time\": 1628229821490\r\n  }\r\n}";
-            var a = JsonConvert.DeserializeObject<Quote>(strDecrypt);
+            string strDecrypt = "{\r\n    \"code\": 0,\r\n    \"message\": \"²Ù×÷³É¹¦\",\r\n    \"data\": [\r\n        {\r\n            \"id\": \"999999999\",\r\n            \"username\": \"XXX\",\r\n            \"identify_num\": \"9999\",\r\n            \"online\": true,\r\n            \"os\": \"Websocket\",\r\n            \"status\": 1,\r\n            \"avatar\": \"XXX\",\r\n            \"vip_avatar\": \"XXX\",\r\n            \"banner\": \"\",\r\n            \"nickname\": \"XXX\",\r\n            \"roles\": [\r\n                4131873\r\n            ],\r\n            \"is_vip\": false,\r\n            \"is_ai_reduce_noise\": true,\r\n            \"is_personal_card_bg\": false,\r\n            \"bot\": false,\r\n            \"mobile_verified\": true,\r\n            \"joined_at\": 1639808384000,\r\n            \"active_time\": 1639808384000,\r\n            \"live_info\": {\r\n                \"in_live\": false,\r\n                \"audience_count\": 0,\r\n                \"live_thumb\": \"\",\r\n                \"live_start_time\": 0\r\n            }\r\n        }\r\n    ]\r\n}";
+            var a = JsonConvert.DeserializeObject<BaseReturnMsg>(strDecrypt);
+            var b = JsonConvert.DeserializeObject<List<ChannelUserList>>(a.data.ToString());
 
-            //BaseReturnMsg b = new BaseReturnMsg();
+
+            //ChannelListSendMsg b = new ChannelListSendMsg();
             //string c = JsonConvert.SerializeObject(b, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
         }
 
