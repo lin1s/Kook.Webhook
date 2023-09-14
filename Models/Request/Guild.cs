@@ -119,7 +119,7 @@ namespace Models.Request.Guild
         public string guild_id { get; set; }
     }
 
-    public class KickoutSendMsg
+    public class GuildKickoutSendMsg
     {
         /// <summary>
         /// 服务器 ID
@@ -159,11 +159,13 @@ namespace Models.Request.Guild
         /// <summary>
         /// 目标用户 id
         /// </summary>
+        [Required]
         public string user_id { get; set; }
 
         /// <summary>
         /// 静音类型，1代表麦克风闭麦，2代表耳机静音
         /// </summary>
+        [Required]
         public int type { get; set; }
     }
 
@@ -184,6 +186,7 @@ namespace Models.Request.Guild
         /// <summary>
         /// 静音类型，1代表麦克风闭麦，2代表耳机静音
         /// </summary>
+        [Required]
         public int type { get; set; }
     }
 
