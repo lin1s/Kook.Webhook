@@ -179,7 +179,7 @@ namespace Models.Request
             /// 频道 id
             /// </summary>
             [Required]
-            public string channel_id { get; set;}
+            public string channel_id { get; set; }
         }
 
         public class ChannelRoleCreateSendMsg

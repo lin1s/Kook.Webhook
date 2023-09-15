@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Models.Emun;
+using Newtonsoft.Json.Linq;
 
 namespace Models.Response
 {
@@ -380,5 +381,76 @@ namespace Models.Response
         /// 最终修改成功后，拒绝的权限的结果集
         /// </summary>
         public int deny { get; set; }
+    }
+
+    /// <summary>
+    /// 消息详情
+    /// </summary>
+    public class MessageDetail
+    {
+        /// <summary>
+        /// 消息 id
+        /// </summary>
+        public string id { get; set; }
+
+        /// <summary>
+        /// 消息类型
+        /// </summary>
+        public MessageType type { get; set; }
+
+        /// <summary>
+        /// 作者的用户信息
+        /// </summary>
+        public UserDetail author { get; set; }
+
+        /// <summary>
+        /// 消息内容（为了保障消息正常发出，请不要超过 8000 字符）
+        /// </summary>
+        public string content { get; set; }
+
+        /// <summary>
+        /// @特定用户 的用户 ID 数组，与 mention_info 中的数据对应
+        /// </summary>
+        public List<string> mention { get; set; }
+
+        /// <summary>
+        /// 是否含有 @全体人员
+        /// </summary>
+        public bool mention_all { get; set; }
+
+        /// <summary>
+        /// @特定角色 的角色 ID 数组，与 mention_info 中的数据对应
+        /// </summary>
+        public List<string> mention_roles { get; set; }
+
+        /// <summary>
+        /// 是否含有 @在线人员
+        /// </summary>
+        public bool mention_here { get; set; }
+
+        /// <summary>
+        /// 超链接解析数据
+        /// </summary>
+        public List<JToken> embeds { get; set; }
+
+        /// <summary>
+        /// 附加的多媒体数据
+        /// </summary>
+        public Attachments attachments { get; set; }
+
+        /// <summary>
+        /// 回应数据
+        /// </summary>
+        public List<JToken> reactions { get; set; }
+
+        /// <summary>
+        /// 引用消息
+        /// </summary>
+        public List<Quote> quote { get; set; }
+
+        /// <summary>
+        /// 引用特定用户或特定角色的信息
+        /// </summary>
+        public JToken mention_info { get; set; }
     }
 }
