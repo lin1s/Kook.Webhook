@@ -1,11 +1,17 @@
-﻿namespace Models.Response
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Models.Response
 {
-    public class Message
+    public class DirectMessage
     {
         /// <summary>
-        /// 获取频道聊天消息列表
+        /// 获取私信聊天消息列表
         /// </summary>
-        public class MessageList
+        public class DirectMessageListSendMsg
         {
             /// <summary>
             /// 消息列表
@@ -14,20 +20,14 @@
         }
 
         /// <summary>
-        /// 获取频道聊天消息详情
+        /// 获取私信聊天消息详情
         /// </summary>
-        public class MessageView : MessageDetail
-        {
-            /// <summary>
-            /// 消息所属的频道id
-            /// </summary>
-            public string channel_id { get; set; }
-        }
+        public class DirectMessageView : MessageDetail { }
 
         /// <summary>
-        /// 发送频道聊天消息
+        /// 发送私信聊天消息
         /// </summary>
-        public class MessageCreate
+        public class DirectMessageCreate
         {
             /// <summary>
             /// 服务端生成的消息 id
@@ -45,9 +45,5 @@
             public string nonce { get; set; }
         }
 
-        public class MessageReactionList : UserDetail
-        {
-
-        }
     }
 }

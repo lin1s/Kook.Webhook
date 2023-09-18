@@ -119,7 +119,7 @@ namespace Models.Request.Guild
         public string guild_id { get; set; }
     }
 
-    public class GuildKickoutSendMsg
+    public class GuildKickOutSendMsg
     {
         /// <summary>
         /// 服务器 ID

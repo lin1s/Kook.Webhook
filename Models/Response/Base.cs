@@ -452,5 +452,41 @@ namespace Models.Response
         /// 引用特定用户或特定角色的信息
         /// </summary>
         public JToken mention_info { get; set; }
+
+        /// <summary>
+        /// 是否已读
+        /// </summary>
+        public bool read_status { get; set; }
+    }
+
+    /// <summary>
+    /// 私聊详情
+    /// </summary>
+    public class UserChatDetail
+    {
+        /// <summary>
+        /// 私信会话 Code
+        /// </summary>
+        public string code { get; set; }
+
+        /// <summary>
+        /// 上次阅读消息的时间 (毫秒)
+        /// </summary>
+        public int last_read_time { get; set; }
+
+        /// <summary>
+        /// 最新消息时间 (毫秒)
+        /// </summary>
+        public int lastst_msg_time { get; set; }
+
+        /// <summary>
+        /// 未读消息数
+        /// </summary>
+        public int unread_count { get; set; }
+
+        /// <summary>
+        /// 目标用户信息
+        /// </summary>
+        public UserDetail target_info { get; set; }
     }
 }

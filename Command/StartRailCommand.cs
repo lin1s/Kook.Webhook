@@ -6,13 +6,14 @@ using Models.Response;
 using Newtonsoft.Json;
 using Services;
 using Tools;
+using static Models.Request.Message;
 
 namespace Command
 {
     public class StartRailCommand : BaseCommand
     {
         private readonly Config config = ConfigHelper.GetBaseConfig();
-        private static Dictionary<string, SendMsgModel> picCache = new Dictionary<string, SendMsgModel>();
+        private static Dictionary<string, MessageCreateSendMsg> picCache = new Dictionary<string, MessageCreateSendMsg>();
         private readonly IKookApiServices _services;
 
         public StartRailCommand(IKookApiServices services)
@@ -37,7 +38,7 @@ namespace Command
 
             string strReturnMsg = HttpHelper.HttpGet("https://bbs-api.mihoyo.com/post/wapi/getPostFullInCollection?&gids=6&order_type=2&collection_id=1996095");
             StartRailData data = JsonConvert.DeserializeObject<StartRailData>(strReturnMsg);
-            SendMsgModel sendMsgModel = new SendMsgModel();
+            MessageCreateSendMsg sendMsgModel = new MessageCreateSendMsg();
             sendMsgModel.target_id = commandJson.d.target_id;
             sendMsgModel.type = MessageType.Text;
             if (data == null)

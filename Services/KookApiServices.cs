@@ -1,11 +1,11 @@
-﻿using Json;
-using Models.Emun;
+﻿using Models.Emun;
 using Models.Json;
 using Models.Request.Guild;
 using Models.Response;
 using Newtonsoft.Json;
 using System.Reflection;
 using Tools;
+using static Models.Request.Message;
 
 namespace Services
 {
@@ -20,7 +20,7 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public BaseReturnMsg GuildList(GuildListSendMsg msgData = null)
+        public GuildList GuildList(GuildListSendMsg msgData)
         {
             string data = "";
             if (msgData != null)
@@ -41,7 +41,9 @@ namespace Services
             string url = "/v3/guild/list";
             if (!string.IsNullOrEmpty(data))
                 url += "?" + data.Remove(0, 1);
-            return SpeedLimiterHelper.CheckSpeedLimiter("guild/list", url);
+
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild/list", url);
+            return JsonConvert.DeserializeObject<GuildList>(msg.data.ToString());
         }
 
         /// <summary>
@@ -49,9 +51,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public BaseReturnMsg GuildView(GuildViewSendMsg msgData)
+        public GuildView GuildView(GuildViewSendMsg msgData)
         {
-            return SpeedLimiterHelper.CheckSpeedLimiter("guild/list", "/v3/guild/view?guild_id=" + msgData.GuildID);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild/list", "/v3/guild/view?guild_id=" + msgData.GuildID);
+            return JsonConvert.DeserializeObject<GuildView>(msg.data.ToString());
         }
 
         /// <summary>
@@ -59,7 +62,7 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public BaseReturnMsg GuildUserList(GuildUserListSendMsg msgData)
+        public GuildUserList GuildUserList(GuildUserListSendMsg msgData)
         {
             string data = "";
             Type type = msgData.GetType();
@@ -76,7 +79,9 @@ namespace Services
             string url = "/v3/guild/user-list";
             if (!string.IsNullOrEmpty(data))
                 url += "?" + data.Remove(0, 1);
-            return SpeedLimiterHelper.CheckSpeedLimiter("guild/user-list", url);
+
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild/user-list", url);
+            return JsonConvert.DeserializeObject<GuildUserList>(msg.data.ToString());
         }
 
         /// <summary>
@@ -84,10 +89,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public BaseReturnMsg GuildNickName(GuildNickNameSendMsg msgData)
+        public void GuildNickName(GuildNickNameSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            return SpeedLimiterHelper.CheckSpeedLimiter("guild/nickname", "/v3/guild/nickname", sendMsg);
+            SpeedLimiterHelper.CheckSpeedLimiter("guild/nickname", "/v3/guild/nickname", sendMsg);
         }
 
         /// <summary>
@@ -95,10 +100,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public BaseReturnMsg GuildLeave(GuildLeaveSendMsg msgData)
+        public void GuildLeave(GuildLeaveSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            return SpeedLimiterHelper.CheckSpeedLimiter("guild/leave", "/v3/guild/leave", sendMsg);
+            SpeedLimiterHelper.CheckSpeedLimiter("guild/leave", "/v3/guild/leave", sendMsg);
         }
 
         /// <summary>
@@ -106,10 +111,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public BaseReturnMsg GuildKickout(GuildKickoutSendMsg msgData)
+        public void GuildKickout(GuildKickOutSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            return SpeedLimiterHelper.CheckSpeedLimiter("guild/kickout", "/v3/guild/leave", sendMsg);
+            SpeedLimiterHelper.CheckSpeedLimiter("guild/kickout", "/v3/guild/leave", sendMsg);
         }
 
         /// <summary>
@@ -117,7 +122,7 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public BaseReturnMsg GuildMuteList(GuildMuteListSendMsg msgData)
+        public GuildMuteList GuildMuteList(GuildMuteListSendMsg msgData)
         {
             string data = "";
             Type type = msgData.GetType();
@@ -134,7 +139,8 @@ namespace Services
             string url = "/v3/guild-mute/list";
             if (!string.IsNullOrEmpty(data))
                 url += "?" + data.Remove(0, 1);
-            return SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/list", url);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/list", url);
+            return JsonConvert.DeserializeObject<GuildMuteList>(msg.data.ToString());
         }
 
         /// <summary>
@@ -142,10 +148,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public BaseReturnMsg GuildMuteCreate(GuildMuteCreateSendMsg msgData)
+        public void GuildMuteCreate(GuildMuteCreateSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            return SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/create", "/v3/guild-mute/create", sendMsg);
+            SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/create", "/v3/guild-mute/create", sendMsg);
         }
 
         /// <summary>
@@ -153,10 +159,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public BaseReturnMsg GuildMuteDelete(GuildMuteDeleteSendMsg msgData)
+        public void GuildMuteDelete(GuildMuteDeleteSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            return SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/delete", "/v3/guild-mute/delete", sendMsg);
+            SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/delete", "/v3/guild-mute/delete", sendMsg);
         }
 
         /// <summary>
@@ -164,10 +170,11 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public BaseReturnMsg GuildBoostHistroy(GuildBoostHistorySendMsg msgData)
+        public GuildBoostHistroy GuildBoostHistroy(GuildBoostHistorySendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            return SpeedLimiterHelper.CheckSpeedLimiter("guild-boost/history", "/v3/guild-boost/history", sendMsg);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild-boost/history", "/v3/guild-boost/history", sendMsg);
+            return JsonConvert.DeserializeObject<GuildBoostHistroy>(msg.data.ToString());
         }
         #endregion
 
@@ -190,7 +197,7 @@ namespace Services
 
         #region Message
 
-        public BaseReturnMsg MessageCreate(SendMsgModel msgData)
+        public BaseReturnMsg MessageCreate(MessageCreateSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
             return SpeedLimiterHelper.CheckSpeedLimiter("message/create", "/v3/message/create", sendMsg);
