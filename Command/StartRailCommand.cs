@@ -69,8 +69,7 @@ namespace Command
         {
             GuildUserListSendMsg guildUserListSendMsg = new GuildUserListSendMsg();
             guildUserListSendMsg.guild_id = "8788733604562195";
-            BaseReturnMsg a = _services.GuildUserList(guildUserListSendMsg);
-            GuildUserList item = JsonConvert.DeserializeObject<GuildUserList>(a.data.ToString());
+            GuildUserList item = _services.GuildUserList(guildUserListSendMsg);
         }
     }
 }
