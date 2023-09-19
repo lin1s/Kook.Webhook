@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models.Response
+﻿namespace Models.Response
 {
     public class DirectMessage
     {
@@ -22,7 +16,13 @@ namespace Models.Response
         /// <summary>
         /// 获取私信聊天消息详情
         /// </summary>
-        public class DirectMessageView : MessageDetail { }
+        public class DirectMessageView : MessageDetail
+        {
+            /// <summary>
+            /// 是否已读
+            /// </summary>
+            public bool read_status { get; set; }
+        }
 
         /// <summary>
         /// 发送私信聊天消息

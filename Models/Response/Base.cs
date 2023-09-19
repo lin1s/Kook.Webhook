@@ -68,6 +68,16 @@ namespace Models.Response
         public bool mobile_verified { get; set; }
 
         /// <summary>
+        /// 手机区号,如中国为 86
+        /// </summary>
+        public string mobile_prefix { get; set; }
+
+        /// <summary>
+        /// 用户手机号，带掩码
+        /// </summary>
+        public int mobile { get; set; }
+
+        /// <summary>
         /// 用户在当前服务器中的角色 id 组成的列表
         /// </summary>
         public List<int> roles { get; set; }
@@ -152,7 +162,7 @@ namespace Models.Response
         /// <summary>
         /// 角色 id
         /// </summary>
-        public int role_id { get; set; }
+        public uint role_id { get; set; }
 
         /// <summary>
         /// 角色名称
@@ -162,12 +172,12 @@ namespace Models.Response
         /// <summary>
         /// 颜色色值
         /// </summary>
-        public int color { get; set; }
+        public uint color { get; set; }
 
         /// <summary>
         /// 顺序位置
         /// </summary>
-        public int position { get; set; }
+        public uint position { get; set; }
 
         /// <summary>
         /// 是否为角色设定(与普通成员分开显示)
@@ -452,11 +462,6 @@ namespace Models.Response
         /// 引用特定用户或特定角色的信息
         /// </summary>
         public JToken mention_info { get; set; }
-
-        /// <summary>
-        /// 是否已读
-        /// </summary>
-        public bool read_status { get; set; }
     }
 
     /// <summary>

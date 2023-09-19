@@ -1,7 +1,7 @@
-﻿using Models.Json;
-using Models.Request.Guild;
+﻿using Models.Request.Guild;
 using Models.Response;
 using static Models.Request.Message;
+using static Models.Response.Asset;
 
 namespace Services
 {
@@ -82,7 +82,7 @@ namespace Services
 
         #region AssetCreate
 
-        public AssetReturnMsg AssetCreate(Stream file);
+        public AssetCreate AssetCreate(Stream file);
 
         #endregion
 

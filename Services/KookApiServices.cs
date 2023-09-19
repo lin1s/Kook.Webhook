@@ -1,11 +1,11 @@
 ﻿using Models.Emun;
-using Models.Json;
 using Models.Request.Guild;
 using Models.Response;
 using Newtonsoft.Json;
 using System.Reflection;
 using Tools;
 using static Models.Request.Message;
+using static Models.Response.Asset;
 
 namespace Services
 {
@@ -185,12 +185,12 @@ namespace Services
 
         #region AssetCreate  
 
-        public AssetReturnMsg AssetCreate(Stream file)
+        public AssetCreate AssetCreate(Stream file)
         {
             Dictionary<string, Stream> postFile = new Dictionary<string, Stream>();
             postFile.Add("file", file);
-            return SpeedLimiterHelper.CheckSpeedLimiter("asset/create", "/v3/asset/create", new Dictionary<string, string>(), postFile);
-
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("asset/create", "/v3/asset/create", new Dictionary<string, string>(), postFile);
+            return JsonConvert.DeserializeObject<AssetCreate>(msg.data.ToString());
         }
 
         #endregion

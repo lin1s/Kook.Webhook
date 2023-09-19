@@ -1,11 +1,11 @@
 ﻿using Command.Base;
-using Json;
 using Microsoft.AspNetCore.Mvc;
 using Models.Emun;
 using Newtonsoft.Json;
 using System.Reflection;
 using System.Text;
 using Tools;
+using static Models.Response.Hook;
 
 namespace Hook.Controllers
 {

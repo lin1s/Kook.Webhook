@@ -58,7 +58,7 @@ namespace Command
             HttpClient downloadClient = new HttpClient();
             Stream stream = downloadClient.GetStreamAsync(image.url).Result;
 
-            sendMsgModel.content = _services.AssetCreate(stream).data.url;
+            sendMsgModel.content = _services.AssetCreate(stream).url;
             sendMsgModel.type = MessageType.Pic;
             picCache.Add(strCommand, sendMsgModel);
             _services.MessageCreate(sendMsgModel);

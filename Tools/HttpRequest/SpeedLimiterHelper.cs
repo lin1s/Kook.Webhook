@@ -1,5 +1,4 @@
-﻿using Models.Json;
-using Models.Response;
+﻿using Models.Response;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
@@ -115,7 +114,7 @@ namespace Tools
         /// <param name="postData"></param>
         /// <param name="postFile"></param>
         /// <returns></returns>
-        public static AssetReturnMsg CheckSpeedLimiter(string bucket, string url, Dictionary<string, string> postData, Dictionary<string, Stream> postFile)
+        public static BaseReturnMsg CheckSpeedLimiter(string bucket, string url, Dictionary<string, string> postData, Dictionary<string, Stream> postFile)
         {
             if (dicLimiter.ContainsKey(bucket))
             {
@@ -127,7 +126,7 @@ namespace Tools
             HttpHeaders responseHeader;
             (strMsg, responseHeader) = HttpHelper.HttpPostWithHeader(BaseConfig.BaseUrl + url, postData, postFile, headers: header);
 
-            AssetReturnMsg ReturnMsg = JsonConvert.DeserializeObject<AssetReturnMsg>(strMsg);
+            BaseReturnMsg ReturnMsg = JsonConvert.DeserializeObject<BaseReturnMsg>(strMsg);
 
             if (ReturnMsg.code == 0)
             {

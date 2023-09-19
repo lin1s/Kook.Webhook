@@ -41,7 +41,7 @@ namespace Models.Request
             /// 目标用户 id
             /// </summary>
             [Required]
-            public string target_id { get; set;}
+            public string target_id { get; set; }
         }
 
         /// <summary>

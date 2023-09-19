@@ -45,9 +45,6 @@
             public string nonce { get; set; }
         }
 
-        public class MessageReactionList : UserDetail
-        {
-
-        }
+        public class MessageReactionList : UserDetail { }
     }
 }

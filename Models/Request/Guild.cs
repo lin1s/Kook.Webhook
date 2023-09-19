@@ -100,8 +100,6 @@ namespace Models.Request.Guild
         /// <summary>
         /// 昵称，2 - 64 长度，不传则清空昵称
         /// </summary>
-        [MinLength(2)]
-        [MaxLength(64)]
         public string? nickname { get; set; }
 
         /// <summary>

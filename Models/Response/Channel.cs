@@ -42,26 +42,17 @@
         /// <summary>
         /// 创建频道
         /// </summary>
-        public class ChannelCreate : ChannelView
-        {
-
-        }
+        public class ChannelCreate : ChannelView { }
 
         /// <summary>
         /// 编辑频道
         /// </summary>
-        public class ChannelUpdate : ChannelDetail
-        {
-
-        }
+        public class ChannelUpdate : ChannelDetail { }
 
         /// <summary>
         /// 语音频道用户列表
         /// </summary>
-        public class ChannelUserList : UserDetail
-        {
-
-        }
+        public class ChannelUserList : UserDetail { }
 
         /// <summary>
         /// 频道角色权限详情
