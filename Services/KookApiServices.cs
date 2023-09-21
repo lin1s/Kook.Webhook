@@ -1,11 +1,10 @@
 ﻿using Models.Emun;
+using Models.Request;
 using Models.Request.Guild;
 using Models.Response;
 using Newtonsoft.Json;
 using System.Reflection;
 using Tools;
-using static Models.Request.Message;
-using static Models.Response.Asset;
 
 namespace Services
 {
@@ -180,6 +179,33 @@ namespace Services
 
         #region Channel
 
+        /// <summary>
+        /// 获取频道列表
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public ChannelList ChannelList(ChannelListSendMsg msgData)
+        {
+            string data = "";
+            Type type = msgData.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            foreach (PropertyInfo prop in properties)
+            {
+                var objValue = prop.GetValue(msgData);
+                if (objValue != null)
+                {
+                    data += "&" + prop.Name + "=" + objValue;
+                }
+            }
+
+            string url = "/v3/channel/list";
+            if (!string.IsNullOrEmpty(data))
+                url += "?" + data.Remove(0, 1);
+
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel/list", url);
+            return JsonConvert.DeserializeObject<ChannelList>(msg.data.ToString());
+
+        }
 
         #endregion
 

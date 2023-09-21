@@ -1,7 +1,6 @@
-﻿using Models.Request.Guild;
+﻿using Models.Request;
+using Models.Request.Guild;
 using Models.Response;
-using static Models.Request.Message;
-using static Models.Response.Asset;
 
 namespace Services
 {
