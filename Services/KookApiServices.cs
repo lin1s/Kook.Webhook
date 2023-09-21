@@ -4,6 +4,7 @@ using Models.Request.Guild;
 using Models.Response;
 using Newtonsoft.Json;
 using System.Reflection;
+using System.Reflection.Emit;
 using Tools;
 
 namespace Services
@@ -63,22 +64,7 @@ namespace Services
         /// <returns></returns>
         public GuildUserList GuildUserList(GuildUserListSendMsg msgData)
         {
-            string data = "";
-            Type type = msgData.GetType();
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo prop in properties)
-            {
-                var objValue = prop.GetValue(msgData);
-                if (objValue != null)
-                {
-                    data += "&" + prop.Name + "=" + objValue;
-                }
-            }
-
-            string url = "/v3/guild/user-list";
-            if (!string.IsNullOrEmpty(data))
-                url += "?" + data.Remove(0, 1);
-
+            string url = "/v3/guild/user-list?" + Tool.GetArgsInClass(msgData);
             BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild/user-list", url);
             return JsonConvert.DeserializeObject<GuildUserList>(msg.data.ToString());
         }
@@ -88,10 +74,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public void GuildNickName(GuildNickNameSendMsg msgData)
+        public BaseReturnMsg GuildNickName(GuildNickNameSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            SpeedLimiterHelper.CheckSpeedLimiter("guild/nickname", "/v3/guild/nickname", sendMsg);
+            return SpeedLimiterHelper.CheckSpeedLimiter("guild/nickname", "/v3/guild/nickname", sendMsg);
         }
 
         /// <summary>
@@ -99,10 +85,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public void GuildLeave(GuildLeaveSendMsg msgData)
+        public BaseReturnMsg GuildLeave(GuildLeaveSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            SpeedLimiterHelper.CheckSpeedLimiter("guild/leave", "/v3/guild/leave", sendMsg);
+            return SpeedLimiterHelper.CheckSpeedLimiter("guild/leave", "/v3/guild/leave", sendMsg);
         }
 
         /// <summary>
@@ -110,10 +96,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public void GuildKickout(GuildKickOutSendMsg msgData)
+        public BaseReturnMsg GuildKickout(GuildKickOutSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            SpeedLimiterHelper.CheckSpeedLimiter("guild/kickout", "/v3/guild/leave", sendMsg);
+            return SpeedLimiterHelper.CheckSpeedLimiter("guild/kickout", "/v3/guild/leave", sendMsg);
         }
 
         /// <summary>
@@ -123,21 +109,7 @@ namespace Services
         /// <returns></returns>
         public GuildMuteList GuildMuteList(GuildMuteListSendMsg msgData)
         {
-            string data = "";
-            Type type = msgData.GetType();
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo prop in properties)
-            {
-                var objValue = prop.GetValue(msgData);
-                if (objValue != null)
-                {
-                    data += "&" + prop.Name + "=" + objValue;
-                }
-            }
-
-            string url = "/v3/guild-mute/list";
-            if (!string.IsNullOrEmpty(data))
-                url += "?" + data.Remove(0, 1);
+            string url = "/v3/guild-mute/list?" + Tool.GetArgsInClass(msgData);
             BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/list", url);
             return JsonConvert.DeserializeObject<GuildMuteList>(msg.data.ToString());
         }
@@ -147,10 +119,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public void GuildMuteCreate(GuildMuteCreateSendMsg msgData)
+        public BaseReturnMsg GuildMuteCreate(GuildMuteCreateSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/create", "/v3/guild-mute/create", sendMsg);
+            return SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/create", "/v3/guild-mute/create", sendMsg);
         }
 
         /// <summary>
@@ -158,10 +130,10 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public void GuildMuteDelete(GuildMuteDeleteSendMsg msgData)
+        public BaseReturnMsg GuildMuteDelete(GuildMuteDeleteSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/delete", "/v3/guild-mute/delete", sendMsg);
+            return SpeedLimiterHelper.CheckSpeedLimiter("guild-mute/delete", "/v3/guild-mute/delete", sendMsg);
         }
 
         /// <summary>
@@ -186,27 +158,138 @@ namespace Services
         /// <returns></returns>
         public ChannelList ChannelList(ChannelListSendMsg msgData)
         {
-            string data = "";
-            Type type = msgData.GetType();
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo prop in properties)
-            {
-                var objValue = prop.GetValue(msgData);
-                if (objValue != null)
-                {
-                    data += "&" + prop.Name + "=" + objValue;
-                }
-            }
-
-            string url = "/v3/channel/list";
-            if (!string.IsNullOrEmpty(data))
-                url += "?" + data.Remove(0, 1);
-
+            string url = "/v3/channel/list?" + Tool.GetArgsInClass(msgData);
             BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel/list", url);
             return JsonConvert.DeserializeObject<ChannelList>(msg.data.ToString());
-
         }
 
+        /// <summary>
+        /// 获取频道详情
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public ChannelView ChannelView(ChannelViewSendMsg msgData)
+        {
+            string url = "/v3/channel/view?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel/list", url);
+            return JsonConvert.DeserializeObject<ChannelView>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 创建频道
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public ChannelCreate ChannelCreate(ChannelCreateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel/create", "/v3/channel/create", sendMsg);
+            return JsonConvert.DeserializeObject<ChannelCreate>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 编辑频道
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public ChannelUpdate ChannelUpdate(ChannelUpdateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel/update", "/v3/channel/update", sendMsg);
+            return JsonConvert.DeserializeObject<ChannelUpdate>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 删除频道
+        /// </summary>
+        /// <param name="msgData"></param>
+        public BaseReturnMsg ChannelDelete(ChannelDeleteSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            return SpeedLimiterHelper.CheckSpeedLimiter("channel/delete", "/v3/channel/delete", sendMsg);
+        }
+
+        /// <summary>
+        /// 语音频道用户列表
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public List<UserDetail> ChannelUserList(ChannelUserListSendMsg msgData)
+        {
+            string url = "/v3/channel/user-list?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel/user-list", url);
+            return JsonConvert.DeserializeObject<List<UserDetail>>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 语音频道之间移动用户
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg ChannelMoveUser(ChannelMoveUserSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            return SpeedLimiterHelper.CheckSpeedLimiter("channel/move-user", "/v3/channel/move-user", sendMsg);
+        }
+
+        /// <summary>
+        /// 频道角色权限详情
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public ChannelRoleIndex ChannelRoleIndex(ChannelRoleIndexSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel-role/index", "/v3/channel-role/index", sendMsg);
+            return JsonConvert.DeserializeObject<ChannelRoleIndex>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 创建频道角色权限
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public ChannelRoleCreate ChannelRoleCreate(ChannelRoleCreateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel-role/create", "/v3/channel-role/create", sendMsg);
+            return JsonConvert.DeserializeObject<ChannelRoleCreate>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 更新频道角色权限
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public ChannelRoleUpdate ChannelRoleUpdate(ChannelRoleUpdateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel-role/update", "/v3/channel-role/update", sendMsg);
+            return JsonConvert.DeserializeObject<ChannelRoleUpdate>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 同步频道角色权限
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public ChannelRoleSync ChannelRoleSync(ChannelRoleSyncSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel-role/update", "/v3/channel-role/update", sendMsg);
+            return JsonConvert.DeserializeObject<ChannelRoleSync>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 删除频道角色权限
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg ChannelRoleDelete(ChannelRoleDeleteSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            return SpeedLimiterHelper.CheckSpeedLimiter("channel-role/delete", "/v3/channel-role/delete", sendMsg);
+        }
         #endregion
 
         #region AssetCreate  

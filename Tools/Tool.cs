@@ -1,10 +1,17 @@
-﻿using System.Security.Cryptography;
+﻿using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Tools
 {
     public static class Tool
     {
+        /// <summary>
+        /// kook解密方法
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="encryptKey"></param>
+        /// <returns></returns>
         public static string Decrypt(string data, string encryptKey)
         {
             // 在 encrypKey 右侧填充 \0 到 32 位
@@ -32,6 +39,27 @@ namespace Tools
                 using (var reader = new StreamReader(csDecrypt))
                     return reader.ReadToEnd();
             }
+        }
+
+        /// <summary>
+        /// 通过实体类拼装Get请求参数
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static string GetArgsInClass(object args)
+        {
+            string data = "";
+            Type type = args.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            foreach (PropertyInfo prop in properties)
+            {
+                var objValue = prop.GetValue(args);
+                if (objValue != null)
+                {
+                    data += "&" + prop.Name + "=" + objValue;
+                }
+            }
+            return data.Remove(0, 1);
         }
     }
 }
