@@ -154,7 +154,7 @@ namespace Models.Request
 
     }
 
-    public class MessageDeleteReaction
+    public class MessageDeleteReactionSendMsg
     {
         /// <summary>
         /// 频道消息的 id

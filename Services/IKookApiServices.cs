@@ -168,6 +168,66 @@ namespace Services
         public BaseReturnMsg ChannelRoleDelete(ChannelRoleDeleteSendMsg msgData);
         #endregion
 
+        #region Message
+
+        /// <summary>
+        /// 获取频道聊天消息列表
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public MessageList MessageList(MessageListSendMsg msgData);
+
+        /// <summary>
+        /// 获取频道聊天消息详情
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public MessageView MessageView(MessageViewSendMsg msgData);
+
+        /// <summary>
+        /// 发送频道聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg MessageCreate(MessageCreateSendMsg msgData);
+
+        /// <summary>
+        /// 更新频道聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg MessageUpdate(MessageUpdateSendMsg msgData);
+
+        /// <summary>
+        /// 删除频道聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg MessageDelete(MessageDeleteSendMsg msgData);
+
+        /// <summary>
+        /// 删除频道聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public MessageReactionList MessageReactionList(MessageReactionListSendMsg msgData);
+
+        /// <summary>
+        /// 给某个消息添加回应
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg MessageAddReaction(MessageAddReactionSendMsg msgData);
+
+        /// <summary>
+        /// 删除消息的某个回应
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg MessageDeleteReaction(MessageDeleteReactionSendMsg msgData);
+
+        #endregion
+
         #region AssetCreate
 
         public AssetCreate AssetCreate(Stream file);

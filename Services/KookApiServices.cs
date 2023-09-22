@@ -292,6 +292,101 @@ namespace Services
         }
         #endregion
 
+        #region Message
+
+        /// <summary>
+        /// 获取频道聊天消息列表
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public MessageList MessageList(MessageListSendMsg msgData)
+        {
+            string url = "/v3/message/list?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("message/list", url);
+            return JsonConvert.DeserializeObject<MessageList>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 获取频道聊天消息详情
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public MessageView MessageView(MessageViewSendMsg msgData)
+        {
+            string url = "/v3/message/view?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("message/view", url);
+            return JsonConvert.DeserializeObject<MessageView>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 发送频道聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg MessageCreate(MessageCreateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            return SpeedLimiterHelper.CheckSpeedLimiter("message/create", "/v3/message/create", sendMsg);
+        }
+
+        /// <summary>
+        /// 更新频道聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg MessageUpdate(MessageUpdateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            return SpeedLimiterHelper.CheckSpeedLimiter("message/update", "/v3/message/update", sendMsg);
+        }
+
+        /// <summary>
+        /// 删除频道聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg MessageDelete(MessageDeleteSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            return SpeedLimiterHelper.CheckSpeedLimiter("message/delete", "/v3/message/delete", sendMsg);
+        }
+
+        /// <summary>
+        /// 删除频道聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public MessageReactionList MessageReactionList(MessageReactionListSendMsg msgData)
+        {
+            string url = "/v3/message/reaction-list?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("message/view", url);
+            return JsonConvert.DeserializeObject<MessageReactionList>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 给某个消息添加回应
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg MessageAddReaction(MessageAddReactionSendMsg msgData)
+        {
+            string url = "/v3/message/add-reaction?" + Tool.GetArgsInClass(msgData);
+            return SpeedLimiterHelper.CheckSpeedLimiter("message/add-reaction", url);
+        }
+
+        /// <summary>
+        /// 删除消息的某个回应
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg MessageDeleteReaction(MessageDeleteReactionSendMsg msgData)
+        {
+            string url = "/v3/message/delete-reaction?" + Tool.GetArgsInClass(msgData);
+            return SpeedLimiterHelper.CheckSpeedLimiter("message/delete-reaction", url);
+        }
+
+        #endregion
+
         #region AssetCreate  
 
         public AssetCreate AssetCreate(Stream file)
@@ -303,16 +398,5 @@ namespace Services
         }
 
         #endregion
-
-        #region Message
-
-        public BaseReturnMsg MessageCreate(MessageCreateSendMsg msgData)
-        {
-            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            return SpeedLimiterHelper.CheckSpeedLimiter("message/create", "/v3/message/create", sendMsg);
-        }
-
-        #endregion
-
     }
 }
