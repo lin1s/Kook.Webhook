@@ -33,7 +33,7 @@ namespace Models.Request
     /// <summary>
     /// 创建私信聊天会话
     /// </summary>
-    public class UserChatCreate
+    public class UserChatCreateSendMsg
     {
         /// <summary>
         /// 目标用户 id
@@ -45,7 +45,7 @@ namespace Models.Request
     /// <summary>
     /// 删除私信聊天会话
     /// </summary>
-    public class UserChatDelete
+    public class UserChatDeleteSendMsg
     {
         /// <summary>
         /// 目标私信会话 Code

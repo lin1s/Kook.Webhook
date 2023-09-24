@@ -3,8 +3,6 @@ using Models.Request;
 using Models.Request.Guild;
 using Models.Response;
 using Newtonsoft.Json;
-using System.Reflection;
-using System.Reflection.Emit;
 using Tools;
 
 namespace Services
@@ -385,6 +383,72 @@ namespace Services
             return SpeedLimiterHelper.CheckSpeedLimiter("message/delete-reaction", url);
         }
 
+        #endregion
+
+        #region ChannelUser
+
+        /// <summary>
+        /// 根据用户 id 和服务器 id 获取用户所在语音频道
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public ChannelUserGetJoinedChannel ChannelUserGetJoinedChannel(ChannelUserGetJoinedChannelSendMsg msgData)
+        {
+            string url = "/v3/channel-user/get-joined-channel?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("channel-user/get-joined-channel", url);
+            return JsonConvert.DeserializeObject<ChannelUserGetJoinedChannel>(msg.data.ToString());
+        }
+
+        #endregion
+
+        #region UserChat
+
+        /// <summary>
+        /// 获取私信聊天会话列表
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public UserChatList UserChatList(UserChatListSendMsg msgData) 
+        {
+            string url = "/v3/user-chat/list?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("user-chat/list", url);
+            return JsonConvert.DeserializeObject<UserChatList>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 获取私信聊天会话详情
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public UserChatView UserChatView(UserChatViewSendMsg msgData)
+        {
+            string url = "/v3/user-chat/view?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("user-chat/view", url);
+            return JsonConvert.DeserializeObject<UserChatView>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 创建私信聊天会话
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public UserChatCreate UserChatCreate(UserChatCreateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("user-chat/create", "/v3/user-chat/create", sendMsg);
+            return JsonConvert.DeserializeObject<UserChatCreate>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 删除私信聊天会话
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg UserChatDelete(UserChatDeleteSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            return SpeedLimiterHelper.ChecskSpeedLimiter("user-chat/delete", "/v3/user-chat/delete", sendMsg);
+        }
         #endregion
 
         #region AssetCreate  

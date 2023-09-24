@@ -1,6 +1,7 @@
 ﻿using Command.Base;
 using Json;
 using Models.Emun;
+using Models.Request;
 using Models.Request.Guild;
 using Models.Response;
 using Newtonsoft.Json;

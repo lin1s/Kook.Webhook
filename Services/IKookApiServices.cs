@@ -228,17 +228,52 @@ namespace Services
 
         #endregion
 
+        #region ChannelUser
+
+        /// <summary>
+        /// 根据用户 id 和服务器 id 获取用户所在语音频道
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public ChannelUserGetJoinedChannel ChannelUserGetJoinedChannel(ChannelUserGetJoinedChannelSendMsg msgData);
+
+        #endregion
+
+        #region UserChat
+
+        /// <summary>
+        /// 获取私信聊天会话列表
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public UserChatList UserChatList(UserChatListSendMsg msgData);
+
+        /// <summary>
+        /// 获取私信聊天会话详情
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public UserChatView UserChatView(UserChatViewSendMsg msgData);
+
+        /// <summary>
+        /// 创建私信聊天会话
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public UserChatCreate UserChatCreate(UserChatCreateSendMsg msgData);
+
+        /// <summary>
+        /// 删除私信聊天会话
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg UserChatDelete(UserChatDeleteSendMsg msgData);
+        #endregion
+
         #region AssetCreate
 
         public AssetCreate AssetCreate(Stream file);
 
         #endregion
-
-        #region Message
-
-        public BaseReturnMsg MessageCreate(MessageCreateSendMsg msgData);
-
-        #endregion
-
     }
 }

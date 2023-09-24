@@ -3,7 +3,6 @@ using Models.Response;
 using Newtonsoft.Json;
 using System.Reflection;
 using Tools;
-using static Models.Response.Channel;
 
 namespace TestProject
 {
