@@ -3,7 +3,7 @@
     /// <summary>
     /// 获取私信聊天消息列表
     /// </summary>
-    public class DirectMessageListSendMsg
+    public class DirectMessageList
     {
         /// <summary>
         /// 消息列表
@@ -42,4 +42,7 @@
         /// </summary>
         public string nonce { get; set; }
     }
+
+    public class DirectMessageReactionList : UserDetail { }
+
 }

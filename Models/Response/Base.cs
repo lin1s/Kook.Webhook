@@ -9,7 +9,7 @@ namespace Models.Response
 
         public string message { get; set; }
 
-        public JToken data { get; set; }
+        public dynamic data { get; set; }
     }
 
     /// <summary>

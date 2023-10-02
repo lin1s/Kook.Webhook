@@ -350,15 +350,15 @@ namespace Services
         }
 
         /// <summary>
-        /// 删除频道聊天消息
+        /// 获取频道消息某回应的用户列表
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public MessageReactionList MessageReactionList(MessageReactionListSendMsg msgData)
+        public List<MessageReactionList> MessageReactionList(MessageReactionListSendMsg msgData)
         {
             string url = "/v3/message/reaction-list?" + Tool.GetArgsInClass(msgData);
             BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("message/view", url);
-            return JsonConvert.DeserializeObject<MessageReactionList>(msg.data.ToString());
+            return JsonConvert.DeserializeObject<List<MessageReactionList>>(msg.data.ToString());
         }
 
         /// <summary>
@@ -408,7 +408,7 @@ namespace Services
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public UserChatList UserChatList(UserChatListSendMsg msgData) 
+        public UserChatList UserChatList(UserChatListSendMsg msgData)
         {
             string url = "/v3/user-chat/list?" + Tool.GetArgsInClass(msgData);
             BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("user-chat/list", url);
@@ -447,8 +447,82 @@ namespace Services
         public BaseReturnMsg UserChatDelete(UserChatDeleteSendMsg msgData)
         {
             string sendMsg = JsonConvert.SerializeObject(msgData, setting);
-            return SpeedLimiterHelper.ChecskSpeedLimiter("user-chat/delete", "/v3/user-chat/delete", sendMsg);
+            return SpeedLimiterHelper.CheckSpeedLimiter("user-chat/delete", "/v3/user-chat/delete", sendMsg);
         }
+        #endregion
+
+        #region DirectMessage
+
+        /// <summary>
+        /// 获取私信聊天消息列表
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public DirectMessageList DirectMessageList(DirectMessageListSendMsg msgData)
+        {
+            string url = "/v3/direct-message/list?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("direct-message/list", url);
+            return JsonConvert.DeserializeObject<DirectMessageList>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 获取私信聊天消息详情
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public DirectMessageView DirectMessageView(DirectMessageViewSendMsg msgData)
+        {
+            string url = "/v3/direct-message/view?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("direct-message/view", url);
+            return JsonConvert.DeserializeObject<DirectMessageView>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 发送私信聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public DirectMessageCreate DirectMessageCreate(DirectMessageCreateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("direct-message/create", "/v3/direct-message/create", sendMsg);
+            return JsonConvert.DeserializeObject<DirectMessageCreate>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 获取频道消息某回应的用户列表
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public List<DirectMessageReactionList> DirectMessageReactionList(DirectMessageReactionListSendMsg msgData)
+        {
+            string url = "/v3/direct-message/reaction-list?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("direct-message/reaction-list", url);
+            return JsonConvert.DeserializeObject<List<DirectMessageReactionList>>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 更新私信聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg DirectMessageUpdate(DirectMessageUpdateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            return SpeedLimiterHelper.CheckSpeedLimiter("direct-message/update", "/v3/direct-message/update", sendMsg);
+        }
+
+        /// <summary>
+        /// 删除私信聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg DirectMessageDelete(DirectMessageDeleteSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            return SpeedLimiterHelper.CheckSpeedLimiter("direct-message/delete", "/v3/direct-message/delete", sendMsg);
+        }
+
         #endregion
 
         #region AssetCreate  

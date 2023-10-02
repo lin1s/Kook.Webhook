@@ -116,7 +116,7 @@ namespace Models.Request
     /// <summary>
     /// 删除私信聊天消息
     /// </summary>
-    public class DirectMessageDelete
+    public class DirectMessageDeleteSendMsg
     {
         /// <summary>
         /// 消息 id
@@ -127,7 +127,7 @@ namespace Models.Request
     /// <summary>
     /// 获取频道消息某回应的用户列表
     /// </summary>
-    public class DirectMessageReactionList
+    public class DirectMessageReactionListSendMsg
     {
         /// <summary>
         /// 消息的 id
@@ -144,7 +144,7 @@ namespace Models.Request
     /// <summary>
     /// 给某个消息添加回应
     /// </summary>
-    public class DirectMessageAddReaction
+    public class DirectMessageAddReactionSendMsg
     {
         /// <summary>
         /// 消息 id
@@ -162,7 +162,7 @@ namespace Models.Request
     /// <summary>
     /// 删除消息的某个回应
     /// </summary>
-    public class DirectMessageDeleteReaction
+    public class DirectMessageDeleteReactionSendMsg
     {
         [Required]
         public string msg_id { get; set; }

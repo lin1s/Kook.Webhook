@@ -1,6 +1,8 @@
 using Command;
+using Models.Request;
 using Models.Response;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Reflection;
 using Tools;
 
@@ -18,10 +20,29 @@ namespace TestProject
         [TestMethod]
         public void JsonConvertTest()
         {
-            string strDecrypt = "{\r\n    \"code\": 0,\r\n    \"message\": \"操作成功\",\r\n    \"data\": [\r\n        {\r\n            \"id\": \"999999999\",\r\n            \"username\": \"XXX\",\r\n            \"identify_num\": \"9999\",\r\n            \"online\": true,\r\n            \"os\": \"Websocket\",\r\n            \"status\": 1,\r\n            \"avatar\": \"XXX\",\r\n            \"vip_avatar\": \"XXX\",\r\n            \"banner\": \"\",\r\n            \"nickname\": \"XXX\",\r\n            \"roles\": [\r\n                4131873\r\n            ],\r\n            \"is_vip\": false,\r\n            \"is_ai_reduce_noise\": true,\r\n            \"is_personal_card_bg\": false,\r\n            \"bot\": false,\r\n            \"mobile_verified\": true,\r\n            \"joined_at\": 1639808384000,\r\n            \"active_time\": 1639808384000,\r\n            \"live_info\": {\r\n                \"in_live\": false,\r\n                \"audience_count\": 0,\r\n                \"live_thumb\": \"\",\r\n                \"live_start_time\": 0\r\n            }\r\n        }\r\n    ]\r\n}";
-            var a = JsonConvert.DeserializeObject<BaseReturnMsg>(strDecrypt);
-            var b = JsonConvert.DeserializeObject<List<ChannelUserList>>(a.data.ToString());
+            string strDecrypt = @"{
+    ""code"": 0,
+    ""message"": ""操作成功"",
+    ""data"": {
+        {
+            ""id"": ""xxxx"",
+            ""username"": ""test"",
+            ""identify_num"": ""xxx"",
+            ""online"": false,
+            ""status"": 0,
+            ""avatar"": ""https://img.kaiheila.cn/avatars/2020-02/xxxx.jpg/icon"",
+            ""vip_avatar"": ""https://img.kaiheila.cn/avatars/2020-02/xxxx.jpg/icon"",
+            ""bot"": false,
+            ""nickname"": ""xxxx"",
+            ""reaction_time"": 1612323994414
+        }
+    }
+}";
 
+            var a = JsonConvert.DeserializeObject<Dictionary<string,object>>(strDecrypt);
+            //var b = JsonConvert.DeserializeObject<DirectMessageReactionList>(a.data.ToString());
+            
+            JObject jobject =JObject.FromObject(strDecrypt);
 
             //ChannelListSendMsg b = new ChannelListSendMsg();
             //string c = JsonConvert.SerializeObject(b, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
@@ -51,3 +72,4 @@ namespace TestProject
         }
     }
 }
+

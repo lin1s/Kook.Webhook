@@ -206,11 +206,11 @@ namespace Services
         public BaseReturnMsg MessageDelete(MessageDeleteSendMsg msgData);
 
         /// <summary>
-        /// 删除频道聊天消息
+        /// 获取频道消息某回应的用户列表
         /// </summary>
         /// <param name="msgData"></param>
         /// <returns></returns>
-        public MessageReactionList MessageReactionList(MessageReactionListSendMsg msgData);
+        public List<MessageReactionList> MessageReactionList(MessageReactionListSendMsg msgData);
 
         /// <summary>
         /// 给某个消息添加回应
@@ -269,6 +269,53 @@ namespace Services
         /// <returns></returns>
         public BaseReturnMsg UserChatDelete(UserChatDeleteSendMsg msgData);
         #endregion
+
+        #region DirectMessage
+
+        /// <summary>
+        /// 获取私信聊天消息列表
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public DirectMessageList DirectMessageList(DirectMessageListSendMsg msgData);
+
+        /// <summary>
+        /// 获取私信聊天消息详情
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public DirectMessageView DirectMessageView(DirectMessageViewSendMsg msgData);
+
+        /// <summary>
+        /// 发送私信聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public DirectMessageCreate DirectMessageCreate(DirectMessageCreateSendMsg msgData);
+
+        /// <summary>
+        /// 获取频道消息某回应的用户列表
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public List<DirectMessageReactionList> DirectMessageReactionList(DirectMessageReactionListSendMsg msgData);
+
+        /// <summary>
+        /// 更新私信聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg DirectMessageUpdate(DirectMessageUpdateSendMsg msgData);
+
+        /// <summary>
+        /// 删除私信聊天消息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg DirectMessageDelete(DirectMessageDeleteSendMsg msgData);
+
+        #endregion
+
 
         #region AssetCreate
 
