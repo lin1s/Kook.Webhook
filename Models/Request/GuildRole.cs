@@ -126,7 +126,7 @@ namespace Models.Request
     /// <summary>
     /// 删除用户角色
     /// </summary>
-    public class GuildRoleRevoke
+    public class GuildRoleRevokeSendMsg
     {
         /// <summary>
         /// 服务器 id

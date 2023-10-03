@@ -525,6 +525,43 @@ namespace Services
 
         #endregion
 
+        #region User
+
+        /// <summary>
+        /// 获取当前用户信息
+        /// </summary>
+        /// <returns></returns>
+        public UserMe UserMe()
+        {
+            string url = "/v3/user/me";
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("user/me", url);
+            return JsonConvert.DeserializeObject<UserMe>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 获取目标用户信息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public UserView UserView(UserViewSendMsg msgData)
+        {
+            string url = "/v3/user/view?" + Tool.GetArgsInClass(msgData);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("user/view", url);
+            return JsonConvert.DeserializeObject<UserView>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 下线机器人
+        /// </summary>
+        /// <returns></returns>
+        public BaseReturnMsg UserOffline()
+        {
+            string url = "/v3/user/offline";
+            return SpeedLimiterHelper.CheckSpeedLimiter("user/offline", url);
+        }
+
+        #endregion
+
         #region AssetCreate  
 
         public AssetCreate AssetCreate(Stream file)
@@ -533,6 +570,70 @@ namespace Services
             postFile.Add("file", file);
             BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("asset/create", "/v3/asset/create", new Dictionary<string, string>(), postFile);
             return JsonConvert.DeserializeObject<AssetCreate>(msg.data.ToString());
+        }
+
+        #endregion
+
+        #region GuildRole
+
+        /// <summary>
+        /// 创建服务器角色
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public GuildRoleCreate GuildRoleCreate(GuildRoleCreateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild-role/create", "/v3/guild-role/create", sendMsg);
+            return JsonConvert.DeserializeObject<GuildRoleCreate>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 更新服务器角色
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public GuildRoleUpdate GuildRoleUpdate(GuildRoleUpdateSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild-role/update", "/v3/guild-role/create", sendMsg);
+            return JsonConvert.DeserializeObject<GuildRoleUpdate>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 删除服务器角色
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg GuildRoleDelete(GuildRoleDeleteSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild-role/delete", "/v3/guild-role/delete", sendMsg);
+            return JsonConvert.DeserializeObject<GuildRoleUpdate>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 赋予用户角色
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public GuildRoleGrant GuildRoleGrant(GuildRoleGrantSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild-role/grant", "/v3/guild-role/grant", sendMsg);
+            return JsonConvert.DeserializeObject<GuildRoleGrant>(msg.data.ToString());
+        }
+
+        /// <summary>
+        /// 删除用户角色
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public GuildRoleRevoke GuildRoleRevoke(GuildRoleRevokeSendMsg msgData)
+        {
+            string sendMsg = JsonConvert.SerializeObject(msgData, setting);
+            BaseReturnMsg msg = SpeedLimiterHelper.CheckSpeedLimiter("guild-role/revoke", "/v3/guild-role/revoke", sendMsg);
+            return JsonConvert.DeserializeObject<GuildRoleGrant>(msg.data.ToString());
         }
 
         #endregion

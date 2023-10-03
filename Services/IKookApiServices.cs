@@ -316,10 +316,71 @@ namespace Services
 
         #endregion
 
+        #region User
+
+        /// <summary>
+        /// 获取当前用户信息
+        /// </summary>
+        /// <returns></returns>
+        public UserMe UserMe();
+
+        /// <summary>
+        /// 获取目标用户信息
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public UserView UserView(UserViewSendMsg msgData);
+
+        /// <summary>
+        /// 下线机器人
+        /// </summary>
+        /// <returns></returns>
+        public BaseReturnMsg UserOffline();
+
+        #endregion
 
         #region AssetCreate
 
         public AssetCreate AssetCreate(Stream file);
+
+        #endregion
+
+        #region GuildRole
+
+        /// <summary>
+        /// 创建服务器角色
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public GuildRoleCreate GuildRoleCreate(GuildRoleCreateSendMsg msgData);
+
+        /// <summary>
+        /// 更新服务器角色
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public GuildRoleUpdate GuildRoleUpdate(GuildRoleUpdateSendMsg msgData);
+
+        /// <summary>
+        /// 删除服务器角色
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public BaseReturnMsg GuildRoleDelete(GuildRoleDeleteSendMsg msgData);
+
+        /// <summary>
+        /// 赋予用户角色
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public GuildRoleGrant GuildRoleGrant(GuildRoleGrantSendMsg msgData);
+
+        /// <summary>
+        /// 删除用户角色
+        /// </summary>
+        /// <param name="msgData"></param>
+        /// <returns></returns>
+        public GuildRoleRevoke GuildRoleRevoke(GuildRoleRevokeSendMsg msgData);
 
         #endregion
     }
