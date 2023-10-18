@@ -1,3 +1,4 @@
+using Hook.Event;
 using NLog.Web;
 using Services;
 using Tools;
@@ -31,7 +32,6 @@ namespace Hook
             }
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
