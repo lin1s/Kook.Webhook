@@ -71,5 +71,10 @@ namespace Command
             guildUserListSendMsg.guild_id = "8788733604562195";
             GuildUserList item = _services.GuildUserList(guildUserListSendMsg);
         }
+
+        public void TestEvent(object sender, Challenge commandJson)
+        {
+            Console.WriteLine(commandJson.ToString());
+        }
     }
 }

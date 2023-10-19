@@ -1,10 +1,8 @@
 ﻿using Command.Base;
-using Hook.Event;
 using Microsoft.AspNetCore.Mvc;
 using Models.Emun;
 using Models.Response;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System.Text;
 using Tools;
@@ -17,7 +15,6 @@ namespace Hook.Controllers
     {
         private readonly Config config = ConfigHelper.GetBaseConfig();
         private readonly IServiceProvider _serviceProvider;
-        EventClass bindClass = new EventClass();
 
         public HookController(IServiceProvider serviceProvider)
         {
@@ -63,16 +60,6 @@ namespace Hook.Controllers
             Task.Run(() =>
             {
                 Challenge commandJson = data;
-
-                var eventValue = commandJson.d.extra.Value<Models.Emun.Event>("type");
-                switch (eventValue)
-                {
-                    case Models.Emun.Event.added_reaction :
-                        bindClass.AddedReaction(commandJson);
-                        break;
-                    default:
-                        break;
-                }
 
 
                 var assemblyAllTypes = typeof(BaseCommand).Assembly.GetTypes();

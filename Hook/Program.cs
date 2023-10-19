@@ -1,4 +1,3 @@
-using Hook.Event;
 using NLog.Web;
 using Services;
 using Tools;
