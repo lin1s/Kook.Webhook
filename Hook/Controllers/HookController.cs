@@ -1,6 +1,7 @@
 ﻿using Command.Base;
 using Microsoft.AspNetCore.Mvc;
 using Models.Emun;
+using Models.Event;
 using Models.Response;
 using Newtonsoft.Json;
 using System.Reflection;
@@ -15,6 +16,7 @@ namespace Hook.Controllers
     {
         private readonly Config config = ConfigHelper.GetBaseConfig();
         private readonly IServiceProvider _serviceProvider;
+        private readonly EventEntity eventEntity = EventFunc.Init();
 
         public HookController(IServiceProvider serviceProvider)
         {
@@ -61,6 +63,7 @@ namespace Hook.Controllers
             {
                 Challenge commandJson = data;
 
+                EventFunc.Distribute(eventEntity, commandJson);
 
                 var assemblyAllTypes = typeof(BaseCommand).Assembly.GetTypes();
                 foreach (var itemType in assemblyAllTypes)

@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command", "Command\Command.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{26A2B775-7DEE-423D-8704-D0FB10FA2136}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Event", "Event\Event.csproj", "{05A7CBE5-26AC-4646-A8C8-EAC4FDA82B4B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{26A2B775-7DEE-423D-8704-D0FB10FA2136}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26A2B775-7DEE-423D-8704-D0FB10FA2136}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26A2B775-7DEE-423D-8704-D0FB10FA2136}.Release|Any CPU.Build.0 = Release|Any CPU
-		{05A7CBE5-26AC-4646-A8C8-EAC4FDA82B4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{05A7CBE5-26AC-4646-A8C8-EAC4FDA82B4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{05A7CBE5-26AC-4646-A8C8-EAC4FDA82B4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{05A7CBE5-26AC-4646-A8C8-EAC4FDA82B4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

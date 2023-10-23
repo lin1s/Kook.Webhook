@@ -1,55 +1,57 @@
-﻿using Command;
+﻿using Models.Emun;
+using Models.Event;
 using Models.Response;
 
-namespace Models.Event
+namespace Command.Base
 {
-    public class Funcs
+    public static partial class EventFunc
     {
-        Hook.Event.Entity entityEvents;
-
-        public void Init()
+        public static EventEntity Init()
         {
-            entityEvents = new Hook.Event.Entity();
+            EventEntity entityEvents = new EventEntity();
 
-            entityEvents.PinnedMessageEvent += StartRailCommand.TestEvent;
+            entityEvents.PinnedMessageEvent += TestEvent;
+
+            return entityEvents;
         }
 
-        public async Task Distribute(Challenge commandJson)
+        public static async Task Distribute(EventEntity entityEvents, Challenge commandJson)
         {
             if (entityEvents == null)
-                Init();
+                return;
 
-            var eventValue = commandJson.d.extra.Value<Models.Emun.Event>("type");
+            string stringValue = commandJson.d.extra.Value<string>("type");
+            Models.Emun.EventType eventValue = (EventType)Enum.Parse(typeof(EventType), stringValue);
 
             switch (eventValue)
             {
                 #region 频道相关事件列表
 
-                case Models.Emun.Event.added_reaction:
+                case Models.Emun.EventType.added_reaction:
                     entityEvents.AddedReaction(commandJson);
                     break;
-                case Models.Emun.Event.deleted_reaction:
+                case Models.Emun.EventType.deleted_reaction:
                     entityEvents.DeletedReaction(commandJson);
                     break;
-                case Models.Emun.Event.updated_message:
+                case Models.Emun.EventType.updated_message:
                     entityEvents.UpdatedMessage(commandJson);
                     break;
-                case Models.Emun.Event.deleted_message:
+                case Models.Emun.EventType.deleted_message:
                     entityEvents.DeletedMessage(commandJson);
                     break;
-                case Models.Emun.Event.added_channel:
+                case Models.Emun.EventType.added_channel:
                     entityEvents.AddedChannel(commandJson);
                     break;
-                case Models.Emun.Event.updated_channel:
+                case Models.Emun.EventType.updated_channel:
                     entityEvents.UpdatedChannel(commandJson);
                     break;
-                case Models.Emun.Event.deleted_channel:
+                case Models.Emun.EventType.deleted_channel:
                     entityEvents.DeletedChannel(commandJson);
                     break;
-                case Models.Emun.Event.pinned_message:
+                case Models.Emun.EventType.pinned_message:
                     entityEvents.PinnedMessage(commandJson);
                     break;
-                case Models.Emun.Event.unpinned_message:
+                case Models.Emun.EventType.unpinned_message:
                     entityEvents.UnpinnedMessage(commandJson);
                     break;
 
@@ -57,16 +59,16 @@ namespace Models.Event
 
                 #region 私聊消息事件
 
-                case Models.Emun.Event.updated_private_message:
+                case Models.Emun.EventType.updated_private_message:
                     entityEvents.UpdatedPrivateMessage(commandJson);
                     break;
-                case Models.Emun.Event.deleted_private_message:
+                case Models.Emun.EventType.deleted_private_message:
                     entityEvents.DeletedPrivateMessage(commandJson);
                     break;
-                case Models.Emun.Event.private_added_reaction:
+                case Models.Emun.EventType.private_added_reaction:
                     entityEvents.PrivateAddedReaction(commandJson);
                     break;
-                case Models.Emun.Event.private_deleted_reaction:
+                case Models.Emun.EventType.private_deleted_reaction:
                     entityEvents.PrivateDeletedReaction(commandJson);
                     break;
 
@@ -74,19 +76,19 @@ namespace Models.Event
 
                 #region 服务器成员相关事件
 
-                case Models.Emun.Event.joined_guild:
+                case Models.Emun.EventType.joined_guild:
                     entityEvents.JoinedGuild(commandJson);
                     break;
-                case Models.Emun.Event.exited_guild:
+                case Models.Emun.EventType.exited_guild:
                     entityEvents.ExitedGuild(commandJson);
                     break;
-                case Models.Emun.Event.updated_guild_member:
+                case Models.Emun.EventType.updated_guild_member:
                     entityEvents.UpdatedGuildMember(commandJson);
                     break;
-                case Models.Emun.Event.guild_member_online:
+                case Models.Emun.EventType.guild_member_online:
                     entityEvents.GuildMemberOnline(commandJson);
                     break;
-                case Models.Emun.Event.guild_member_offline:
+                case Models.Emun.EventType.guild_member_offline:
                     entityEvents.GuildMemberOffline(commandJson);
                     break;
 
@@ -94,13 +96,13 @@ namespace Models.Event
 
                 #region 服务器角色相关事件
 
-                case Models.Emun.Event.added_role:
+                case Models.Emun.EventType.added_role:
                     entityEvents.AddedRole(commandJson);
                     break;
-                case Models.Emun.Event.deleted_role:
+                case Models.Emun.EventType.deleted_role:
                     entityEvents.DeletedRole(commandJson);
                     break;
-                case Models.Emun.Event.updated_role:
+                case Models.Emun.EventType.updated_role:
                     entityEvents.UpdatedRole(commandJson);
                     break;
 
@@ -108,25 +110,25 @@ namespace Models.Event
 
                 #region 服务器角色相关事件
 
-                case Models.Emun.Event.updated_guild:
+                case Models.Emun.EventType.updated_guild:
                     entityEvents.UpdatedGuild(commandJson);
                     break;
-                case Models.Emun.Event.deleted_guild:
+                case Models.Emun.EventType.deleted_guild:
                     entityEvents.DeletedGuild(commandJson);
                     break;
-                case Models.Emun.Event.added_block_list:
+                case Models.Emun.EventType.added_block_list:
                     entityEvents.AddedBlockList(commandJson);
                     break;
-                case Models.Emun.Event.deleted_block_list:
+                case Models.Emun.EventType.deleted_block_list:
                     entityEvents.DeletedBlockList(commandJson);
                     break;
-                case Models.Emun.Event.added_emoji:
+                case Models.Emun.EventType.added_emoji:
                     entityEvents.AddedEmoji(commandJson);
                     break;
-                case Models.Emun.Event.removed_emoji:
+                case Models.Emun.EventType.removed_emoji:
                     entityEvents.RemovedEmoji(commandJson);
                     break;
-                case Models.Emun.Event.updated_emoji:
+                case Models.Emun.EventType.updated_emoji:
                     entityEvents.UpdatedEmoji(commandJson);
                     break;
 
@@ -134,22 +136,22 @@ namespace Models.Event
 
                 #region 服务器角色相关事件
 
-                case Models.Emun.Event.joined_channel:
+                case Models.Emun.EventType.joined_channel:
                     entityEvents.JoinedChannel(commandJson);
                     break;
-                case Models.Emun.Event.exited_channel:
+                case Models.Emun.EventType.exited_channel:
                     entityEvents.ExitedChannel(commandJson);
                     break;
-                case Models.Emun.Event.user_updated:
+                case Models.Emun.EventType.user_updated:
                     entityEvents.UserUpdated(commandJson);
                     break;
-                case Models.Emun.Event.self_joined_guild:
+                case Models.Emun.EventType.self_joined_guild:
                     entityEvents.SelfJoinedGuild(commandJson);
                     break;
-                case Models.Emun.Event.self_exited_guild:
+                case Models.Emun.EventType.self_exited_guild:
                     entityEvents.SelfExitedGuild(commandJson);
                     break;
-                case Models.Emun.Event.message_btn_click:
+                case Models.Emun.EventType.message_btn_click:
                     entityEvents.MessageBtnClick(commandJson);
                     break;
 

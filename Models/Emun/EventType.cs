@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models.Emun
 {
-    public enum Event
+    public enum EventType
     {
         #region 频道相关事件列表
 
